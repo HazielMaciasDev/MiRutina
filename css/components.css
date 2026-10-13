@@ -235,7 +235,7 @@
   stroke-width: 1.8;
 }
 
-/* ===== FAB with Warm Conic Border ===== */
+/* ===== FAB ===== */
 .fab {
   position: fixed;
   right: var(--space-5);
@@ -253,16 +253,6 @@
   cursor: pointer;
   transition: transform var(--dur-fast) var(--ease-soft);
   animation: fab-in var(--dur-slow) var(--ease-soft);
-}
-
-.fab::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: var(--radius-chip);
-  background: var(--gradient-conic-warm);
-  z-index: -1;
-  animation: rotate 6s linear infinite;
 }
 
 .fab:active {
@@ -285,12 +275,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
   }
 }
 

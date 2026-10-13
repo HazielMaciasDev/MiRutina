@@ -205,7 +205,7 @@ Title in Newsreader 28px weight 500. Chevrons are 32×32px circular buttons with
 - Use `--color-accent` (mandarina) **only** for: today's cell, the FAB, the active focus state, and one CTA per view
 - Use `--color-sage` (verde salvia) **only** for: done states and completion
 - Use 1px `--color-stone` borders as the structural baseline — never use shadows on cards
-- Reserve the **conic gradient border** for ONE element per view (the FAB or one prominent CTA) — it earns attention by scarcity
+- Reserve decorative gradients for **typography accents only** (e.g. the brand mark on icons). Never on functional UI elements like buttons, cards or the FAB.
 - Keep numerals at minimum 40px — small numbers feel like dashboard widgets, big numbers feel like a printed page
 
 ### Don't
@@ -248,7 +248,7 @@ Stats is a similar single-column: a big numeral for the streak, a thin rule, the
 
 ## Motion Philosophy
 
-Motion is restrained. The dominant duration is **450ms** with cubic-bezier(0.33, 1, 0.68, 1) — a slow ease-out that feels like a page settling into place. Secondary is **200ms** for state changes. The conic gradient on the FAB rotates at **6s linear infinite** — slow enough to be ambient, not distracting. Hover transitions are **120ms** for instant feedback. The principle: one slow continuous motion per viewport (the FAB), everything else settles quietly.
+Motion is restrained. The dominant duration is **450ms** with cubic-bezier(0.33, 1, 0.68, 1) — a slow ease-out that feels like a page settling into place. Secondary is **200ms** for state changes. The FAB has a subtle entrance animation on view load. Hover transitions are **120ms** for instant feedback. The principle: pages settle quietly, no continuous animations competing for attention.
 
 ## CSS Custom Properties
 
