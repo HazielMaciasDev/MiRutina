@@ -1,5 +1,5 @@
-/* Service worker — cache-first for static assets */
-const CACHE = 'rutina-v1';
+/* Service worker — network-first for HTML/CSS, cache-first for assets */
+const CACHE = 'rutina-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -34,9 +34,36 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+// Tell clients a new SW has taken control so the app can refresh itself.
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
+
+  const isHTML = req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
+  const isCSS  = req.destination === 'style';
+  const isJS   = req.destination === 'script';
+
+  // Network-first for HTML, CSS, JS — always prefer the fresh copy.
+  if (isHTML || isCSS || isJS) {
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          if (res && res.status === 200 && req.url.startsWith(self.location.origin)) {
+            const copy = res.clone();
+            caches.open(CACHE).then(c => c.put(req, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req).then(c => c || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Cache-first for everything else (images, fonts, manifest).
   e.respondWith(
     caches.match(req).then(cached => {
       if (cached) return cached;

@@ -48,7 +48,31 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('service-worker.js')
+          .then(reg => {
+            // When a new SW is installed and waiting, activate it immediately
+            // and reload so the user sees the latest version on next visit.
+            if (reg.waiting) {
+              reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+            reg.addEventListener('updatefound', () => {
+              const sw = reg.installing;
+              if (!sw) return;
+              sw.addEventListener('statechange', () => {
+                if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+                  sw.postMessage({ type: 'SKIP_WAITING' });
+                }
+              });
+            });
+          })
           .catch(err => console.warn('SW registration failed:', err));
+
+        // Reload once when the new SW takes control (controllerchanged).
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchanged', () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
       });
     }
   }
