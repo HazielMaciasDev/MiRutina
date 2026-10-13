@@ -1,0 +1,301 @@
+/* ============================================
+   COMPONENTS — Buttons, cards, pills, inputs
+   ============================================ */
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-fast) var(--ease-soft),
+    background-color var(--dur-fast) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft),
+    color var(--dur-fast) var(--ease-soft);
+  border: 1px solid transparent;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--color-ink-black);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: #000;
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--color-bone);
+  color: var(--color-ink-black);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-ink-black);
+}
+
+.btn--blue {
+  background: transparent;
+  border-color: var(--color-signal-blue);
+  color: var(--color-signal-blue);
+}
+
+.btn--danger {
+  background: transparent;
+  border-color: var(--color-bone);
+  color: #d03030;
+}
+
+.btn--sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--surface-canvas);
+  border: 1px solid var(--color-bone);
+  border-radius: var(--radius-card);
+  padding: var(--space-5);
+}
+
+.card--soft {
+  background: var(--surface-card);
+  border-color: transparent;
+}
+
+.card--dark {
+  background: var(--color-ink-black);
+  border-color: var(--color-ink-black);
+  color: #fff;
+}
+.card--dark .card-label,
+.card--dark .stat-num {
+  color: #fff;
+}
+
+/* ===== Pills / Tags ===== */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--surface-card);
+  color: var(--color-carbon);
+  border: 1px solid var(--color-bone);
+  line-height: 1.4;
+}
+
+.pill--blue {
+  background: rgba(0, 145, 255, 0.08);
+  color: var(--color-signal-blue);
+  border-color: transparent;
+}
+
+.pill--violet {
+  background: rgba(102, 71, 240, 0.08);
+  color: var(--color-brand-violet);
+  border-color: transparent;
+}
+
+.pill--mint {
+  background: rgba(0, 192, 122, 0.12);
+  color: var(--color-emerald);
+  border-color: transparent;
+}
+
+.pill--mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: transparent;
+  color: var(--color-ash);
+  border: none;
+  padding: 0;
+}
+
+/* ===== Inputs ===== */
+.input,
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--color-cloud);
+  background: var(--surface-canvas);
+  font-size: var(--text-body-sm);
+  transition: border-color var(--dur-fast) var(--ease-soft);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-ink-black);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+/* ===== Top header (per view) ===== */
+.topbar {
+  padding: var(--space-5) var(--space-5) var(--space-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.topbar-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ===== Tab Bar ===== */
+.tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--tab-bar-h) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border-top: 1px solid var(--color-bone);
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  z-index: 50;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--color-ash);
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-soft);
+}
+
+.tab__icon {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.tab.is-active {
+  color: var(--color-ink-black);
+}
+
+.tab.is-active .tab__icon {
+  stroke-width: 2.2;
+}
+
+/* ===== Floating Action Button (with conic gradient border) ===== */
+.fab {
+  position: fixed;
+  right: var(--space-5);
+  bottom: calc(var(--tab-bar-h) + var(--safe-bottom) + var(--space-5));
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink-black);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-floating);
+  z-index: 40;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-soft);
+  animation: fab-in var(--dur-slow) var(--ease-soft);
+}
+
+.fab::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--radius-pill);
+  background: var(--gradient-rainbow-conic);
+  z-index: -1;
+  animation: rotate 6s linear infinite;
+}
+
+.fab:active {
+  transform: scale(0.94);
+}
+
+@keyframes fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== Toasts ===== */
+.toast {
+  position: fixed;
+  top: var(--space-5);
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background: var(--color-ink-black);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 100;
+  opacity: 0;
+  transition:
+    transform var(--dur-base) var(--ease-soft),
+    opacity var(--dur-base) var(--ease-soft);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, calc(var(--safe-top) + 12px));
+}
