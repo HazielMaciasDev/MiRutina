@@ -1,122 +1,123 @@
 /* ============================================
-   DESIGN TOKENS — ClickUp style reference
+   DESIGN TOKENS — Editorial / journal
    Source: DESIGN.MD
    ============================================ */
 
 :root {
-  /* ===== Colors ===== */
-  --color-signal-white: #ffffff;
-  --color-ink-black: #202020;
-  --color-onyx: #090c1d;
-  --color-carbon: #2a2a2a;
-  --color-slate: #646464;
-  --color-ash: #838383;
-  --color-fog: #b3b3b3;
-  --color-cloud: #d4d4d4;
-  --color-bone: #e8e8e8;
-  --color-mist: #f8f9fa;
-  --color-plaster: #e9ebf0;
-  --color-mercury: #eeeeee;
-  --color-brand-violet: #6647f0;
-  --color-signal-blue: #0091ff;
-  --color-mint: #6ee7b7;
-  --color-emerald: #00c07a;
-  --color-teal-tag: #16c0a4;
+  /* ===== Surfaces ===== */
+  --color-paper: #faf7f2;
+  --color-linen: #f1ead9;
+  --color-parchment: #ebe3d0;
 
-  /* Surfaces */
-  --surface-canvas: #ffffff;
-  --surface-card: #f8f9fa;
-  --surface-section-band: #e9ebf0;
-  --surface-dark-panel: #111111;
+  --surface-paper: var(--color-paper);
+  --surface-linen: var(--color-linen);
+  --surface-parchment: var(--color-parchment);
 
-  /* Status semantic */
-  --color-status-done: #00c07a;
-  --color-status-progress: #0091ff;
-  --color-status-pending: #b3b3b3;
-  --color-status-skipped: #d4d4d4;
+  /* ===== Ink ===== */
+  --color-ink: #1a1310;
+  --color-charcoal: #3d3530;
+  --color-smoke: #756c63;
+  --color-mist: #a89e91;
+
+  /* ===== Structure ===== */
+  --color-stone: #d6cebd;
+  --color-sand: #e3dccb;
+
+  /* ===== Accents ===== */
+  --color-accent: #e85a1a;
+  --color-accent-soft: #fbece0;
+  --color-sage: #6b8e6f;
+  --color-sage-soft: #e8f0e6;
+  --color-indigo: #3a4a6b;
+  --color-indigo-soft: #e7ebf2;
+
+  /* Category status (semantic) */
+  --color-status-done: var(--color-sage);
+  --color-status-progress: var(--color-indigo);
+  --color-status-pending: var(--color-mist);
 
   /* ===== Gradients ===== */
-  --gradient-rainbow-conic: conic-gradient(
+  --gradient-conic-warm: conic-gradient(
     from 90deg,
-    rgb(125, 91, 231) 19%,
-    rgb(188, 63, 218) 28%,
-    rgb(250, 36, 206) 37%,
-    rgb(251, 73, 165) 45%,
-    rgb(252, 109, 123) 52%,
-    rgb(253, 132, 97) 55%,
-    rgb(253, 154, 70) 58%,
-    rgb(246, 135, 198) 65%,
-    rgb(163, 160, 224) 80%,
-    rgb(79, 185, 250) 95%,
-    rgb(0, 145, 255) 100%
-  );
-  --gradient-primary: linear-gradient(
-    83deg,
-    rgba(64, 221, 255) -5%,
-    rgba(118, 18, 250) 51%,
-    rgba(250, 18, 227) 125%
+    #e85a1a 0%,
+    #d4a017 14%,
+    #6b8e6f 28%,
+    #3a4a6b 42%,
+    #6b4d8e 56%,
+    #a85a7a 70%,
+    #e85a1a 84%,
+    #fbece0 100%
   );
 
-  /* ===== Typography — Families ===== */
-  --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Sometype Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
+  /* ===== Fonts ===== */
+  --font-display: 'Newsreader', 'Source Serif 4', ui-serif, Georgia, serif;
+  --font-body: 'Geist', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, monospace;
 
-  /* ===== Typography — Scale ===== */
-  --text-body-sm: 14px;
-  --leading-body-sm: 1.5;
-  --text-body: 16px;
-  --leading-body: 1.5;
-  --text-subheading: 18px;
-  --leading-subheading: 1.45;
-  --text-heading-sm: 22px;
-  --leading-heading-sm: 1.2;
-  --text-heading: 28px;
-  --leading-heading: 1.15;
-  --text-heading-lg: 36px;
-  --leading-heading-lg: 1.1;
-  --text-display: 48px;
-  --leading-display: 1.05;
+  /* ===== Type scale ===== */
+  --text-mono-label: 11px;
+  --text-micro: 11px;
+  --text-body-sm: 13px;
+  --text-body: 15px;
+  --text-subhead: 17px;
+  --text-title: 28px;
+  --text-headline: 40px;
+  --text-display: 56px;
+  --text-numeral: 72px;
 
-  /* ===== Spacing (4px base) ===== */
+  --leading-mono: 1.30;
+  --leading-micro: 1.40;
+  --leading-body-sm: 1.50;
+  --leading-body: 1.55;
+  --leading-subhead: 1.40;
+  --leading-title: 1.15;
+  --leading-headline: 1.10;
+  --leading-display: 1.05;
+  --leading-numeral: 1.00;
+
+  --tracking-mono: 0.06em;
+  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.035em;
+
+  /* ===== Spacing ===== */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-7: 32px;
-  --space-8: 40px;
-  --space-9: 56px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
   /* ===== Radius ===== */
-  --radius-input: 9px;
-  --radius-card: 12px;
-  --radius-image: 16px;
-  --radius-large-card: 20px;
-  --radius-pill: 9999px;
+  --radius-chip: 100px;
+  --radius-card: 14px;
+  --radius-input: 10px;
+  --radius-button: 12px;
+  --radius-modal: 20px;
 
-  /* ===== Shadows (use sparingly) ===== */
-  --shadow-subtle: rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  --shadow-floating: rgba(0, 0, 0, 0.08) 0px 8px 24px -6px,
-    rgba(0, 0, 0, 0.04) 0px 2px 6px -2px;
-  --shadow-ring-conic: rgba(102, 71, 240, 0.18) 0px 0px 0px 1px;
+  /* ===== Shadows (used sparingly) ===== */
+  --shadow-lift: 0 1px 0 rgba(26, 19, 16, 0.04),
+                 0 8px 24px -10px rgba(26, 19, 16, 0.18);
+  --shadow-modal: 0 -2px 32px -8px rgba(26, 19, 16, 0.18);
+  --shadow-inset-paper: inset 0 0 0 1px rgba(214, 206, 189, 0.6);
+  --shadow-inset-ink: inset 0 0 0 1px rgba(214, 206, 189, 0.15);
 
   /* ===== Layout ===== */
-  --page-max: 720px;
+  --page-max: 560px;
+  --baseline: 8px;
   --tab-bar-h: 64px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 
   /* ===== Motion ===== */
   --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
-  --dur-fast: 150ms;
-  --dur-base: 250ms;
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
   --dur-slow: 450ms;
 
-  /* ===== Theme color (PWA) ===== */
-  --theme-color: #ffffff;
+  /* ===== Theme ===== */
+  --theme-color: #faf7f2;
 }

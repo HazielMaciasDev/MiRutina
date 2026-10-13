@@ -19,44 +19,41 @@ const SettingsView = {
     const cats = Store.getCategories();
 
     this.el.innerHTML = `
-      <header class="topbar">
-        <div class="topbar-meta">
-          <span class="t-mono">Ajustes</span>
-          <h1 class="t-h">Tu rutina</h1>
-        </div>
+      <header class="settings-header">
+        <span class="settings-header__eyebrow">Ajustes</span>
+        <h1 class="settings-header__title">Tu rutina</h1>
       </header>
+      <hr class="settings-header__rule" />
 
-      <section class="settings-section">
-        <div class="settings-section__head">
-          <span class="settings-section__title">Tareas por día</span>
-        </div>
-        <div id="day-sections">
-          ${this.renderAllDays(tasks, cats)}
-        </div>
-      </section>
+      <div class="settings">
+        ${this.renderAllDays(tasks, cats)}
 
-      <section class="settings-section">
-        <div class="settings-section__head">
-          <span class="settings-section__title">Categorías</span>
-        </div>
-        <div>
-          ${cats.map(c => this.renderCategory(c)).join('')}
-        </div>
-      </section>
+        <section class="settings-section">
+          <div class="settings-section__head">
+            <span class="settings-section__title">Categorías</span>
+            <span class="settings-section__rule"></span>
+          </div>
+          <div>
+            ${cats.map(c => this.renderCategory(c)).join('')}
+          </div>
+        </section>
 
-      <section class="settings-section">
-        <div class="settings-section__head">
-          <span class="settings-section__title">Datos</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <button class="btn btn--ghost btn--block" data-action="reset">Borrar todos los datos</button>
-          <button class="btn btn--ghost btn--block" data-action="seed">Restaurar rutina original</button>
-        </div>
-      </section>
+        <section class="settings-section">
+          <div class="settings-section__head">
+            <span class="settings-section__title">Datos</span>
+            <span class="settings-section__rule"></span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="btn btn--ghost btn--block" data-action="reset">Borrar todos los datos</button>
+            <button class="btn btn--ghost btn--block" data-action="seed">Restaurar rutina original</button>
+          </div>
+        </section>
 
-      <div class="about">
-        <div class="about__name">Mi Rutina</div>
-        <div class="about__sub">v1.0 · Local-first · L-V tracker</div>
+        <div class="about">
+          <div class="about__eyebrow">Mi Rutina</div>
+          <div class="about__name">v1.0</div>
+          <div class="about__sub">Local-first · Tracker L-V</div>
+        </div>
       </div>
     `;
 
@@ -82,30 +79,39 @@ const SettingsView = {
   // If a user edits tasks, the task carries its own dayGroup. So the same task can appear
   // under two days. We render a task once per day it applies to.
   renderAllDays(tasks, cats) {
-    return this.getDisplayDays().map(day => {
-      const applicableTasks = tasks
-        .filter(t => this.taskAppliesTo(t, day.key))
-        .sort((a, b) => (a.hour - b.hour) || (a.minute - b.minute));
-      return `
-        <div class="day-section">
-          <div class="day-section__head">
-            <span class="day-section__title">${day.label}</span>
-            <span class="day-section__count">${applicableTasks.length} tareas</span>
-          </div>
-          <div class="day-section__list" data-day="${day.key}">
-            ${applicableTasks.map(t => this.renderTaskEdit(t, cats, day.key)).join('')}
-          </div>
-          <form class="add-task-inline" data-day="${day.key}">
-            <input type="time" class="input add-task-inline__time" required />
-            <input type="text" class="input add-task-inline__label" placeholder="Nueva tarea…" required />
-            <select class="input add-task-inline__cat" required>
-              ${cats.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
-            </select>
-            <button type="submit" class="btn btn--primary btn--sm" data-action="add-task">Añadir</button>
-          </form>
+    return `
+      <section class="settings-section">
+        <div class="settings-section__head">
+          <span class="settings-section__title">Tareas por día</span>
+          <span class="settings-section__rule"></span>
         </div>
-      `;
-    }).join('');
+        ${this.getDisplayDays().map(day => {
+          const applicableTasks = tasks
+            .filter(t => this.taskAppliesTo(t, day.key))
+            .sort((a, b) => (a.hour - b.hour) || (a.minute - b.minute));
+          return `
+            <div class="day-section">
+              <div class="day-section__head">
+                <span class="day-section__title">${day.label}</span>
+                <span class="day-section__count">${applicableTasks.length} ${applicableTasks.length === 1 ? 'tarea' : 'tareas'}</span>
+              </div>
+              <div class="day-section__rule"></div>
+              <div class="day-section__list" data-day="${day.key}">
+                ${applicableTasks.map(t => this.renderTaskEdit(t, cats, day.key)).join('')}
+              </div>
+              <form class="add-task-inline" data-day="${day.key}">
+                <input type="time" class="input add-task-inline__time" required />
+                <input type="text" class="input add-task-inline__label" placeholder="Nueva tarea…" required />
+                <select class="select add-task-inline__cat" required>
+                  ${cats.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
+                </select>
+                <button type="submit" class="btn btn--primary btn--sm">Añadir</button>
+              </form>
+            </div>
+          `;
+        }).join('')}
+      </section>
+    `;
   },
 
   taskAppliesTo(task, dayIdx) {
@@ -135,12 +141,12 @@ const SettingsView = {
           <div class="task-edit__form">
             <input type="time" class="input" data-field="time" value="${task.hour}:${String(task.minute).padStart(2,'0')}" />
             <input type="text" class="input" data-field="label" value="${Utils.esc(task.label)}" />
-            <select class="input" data-field="cat">
+            <select class="select" data-field="cat">
               ${cats.map(c => `<option value="${c.id}" ${c.id === task.categoryId ? 'selected' : ''}>${c.label}</option>`).join('')}
             </select>
             <div class="task-edit__form-actions">
               <button class="btn btn--primary btn--sm" data-action="save-edit">Guardar</button>
-              <button class="btn btn--ghost btn--sm" data-action="cancel-edit">Cancelar</button>
+              <button class="btn btn--quiet btn--sm" data-action="cancel-edit">Cancelar</button>
             </div>
           </div>
         </div>
@@ -150,18 +156,16 @@ const SettingsView = {
       <div class="task-edit" data-task-id="${task.id}" data-day="${dayIdx}">
         <span class="task-edit__time">${Utils.formatHour(task.hour, task.minute)}</span>
         <span class="task-edit__label">${Utils.esc(task.label)}</span>
-        <span class="task-edit__cat pill" style="background:${cat?.color}1a;color:${cat?.color};border:none;">
-          ${cat?.label}
-        </span>
+        ${cat ? `<span class="chip" style="background:${cat.color}1a;color:${cat.color};border:none;">${cat.label}</span>` : ''}
         <div class="task-edit__actions">
           <button class="task-edit__icon" data-action="edit-task" aria-label="Editar">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
               <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
               <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
             </svg>
           </button>
           <button class="task-edit__icon" data-action="remove-task" aria-label="Eliminar">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
               <polyline points="3 6 5 6 21 6"/>
               <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
             </svg>

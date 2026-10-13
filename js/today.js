@@ -22,16 +22,17 @@ const TodayView = {
     // Render hero
     this.el.innerHTML = `
       <header class="today-hero">
-        <span class="today-hero__eyebrow">${this.eyebrow(group)}</span>
-        <h1 class="today-hero__date">
-          <span>${now.getDate()}</span>
-          <em>${Utils.monthName(now)}</em>
-        </h1>
-        <p class="today-hero__sub">${Utils.formatLongDate(now)}</p>
+        <span class="today-hero__eyebrow">
+          <span class="today-hero__eyebrow-dot"></span>
+          ${this.eyebrow()}
+        </span>
+        <h1 class="today-hero__date">${String(now.getDate()).padStart(2, '0')}</h1>
+        <p class="today-hero__sub">${Utils.monthName(now)} · ${Utils.dayName(now)}</p>
         ${group ? this.renderProgress(tasks, group) : this.renderWeekendHero()}
+        <hr class="today-hero__rule" />
       </header>
 
-      <section class="tasks">
+      <section class="day-block">
         ${group
           ? this.renderTaskGroups(tasks, cats, group)
           : this.renderWeekend()}
@@ -41,9 +42,10 @@ const TodayView = {
     this.bindEvents();
   },
 
-  eyebrow(group) {
-    if (!group) return 'Hoy · Descanso';
+  eyebrow() {
     const d = new Date();
+    const dow = Utils.dow(d);
+    if (dow === 0 || dow === 6) return 'Día de descanso';
     return `Hoy · ${Utils.dayName(d)}`;
   },
 
@@ -59,8 +61,8 @@ const TodayView = {
           <div class="progress__fill" style="width: ${pct}%"></div>
         </div>
         <div class="progress__meta">
-          <span>${done} / ${dayTasks.length} completadas</span>
-          <span>${pct}%</span>
+          <span><strong>${done}</strong> / ${dayTasks.length} hechas</span>
+          <span><strong>${pct}%</strong></span>
         </div>
       </div>
     `;
@@ -68,8 +70,8 @@ const TodayView = {
 
   renderWeekendHero() {
     return `
-      <p class="today-hero__sub" style="margin-top:8px;color:var(--color-slate);">
-        Sábado y domingo no forman parte de la rutina. Descansa, recarga y vuelve el lunes con todo.
+      <p class="today-hero__sub" style="margin-top:8px;">
+        Sábado y domingo no forman parte de la rutina.<br/>Vuelve el lunes.
       </p>
     `;
   },
@@ -77,13 +79,9 @@ const TodayView = {
   renderWeekend() {
     return `
       <div class="empty-state">
-        <div class="empty-state__icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </div>
-        <h2 class="t-h-sm">Sin tareas hoy</h2>
-        <p class="t-slate" style="max-width:280px;text-align:center;">
+        <span class="empty-state__mark"></span>
+        <h2 class="t-title">Sin tareas hoy</h2>
+        <p class="t-charcoal" style="max-width:320px;">
           Tu rutina vuelve el lunes. Mientras tanto, haz algo que disfrutes.
         </p>
       </div>
@@ -112,9 +110,14 @@ const TodayView = {
     return Object.entries(buckets)
       .filter(([, list]) => list.length)
       .map(([label, list]) => `
-        <div class="task-group">
-          <div class="task-group__title">${label}</div>
-          ${list.map(t => this.renderTask(t, cats, log[t.id])).join('')}
+        <div class="day-block">
+          <div class="day-block__head">
+            <span class="day-block__title">${label}</span>
+            <span class="day-block__rule"></span>
+          </div>
+          <div class="tasks">
+            ${list.map(t => this.renderTask(t, cats, log[t.id])).join('')}
+          </div>
         </div>
       `).join('');
   },
@@ -124,35 +127,44 @@ const TodayView = {
     const done = entry?.done;
     const note = entry?.note;
     const time = Utils.formatHour(task.hour, task.minute);
+    const catChipClass = cat ? this.catChipClass(cat) : 'chip';
     return `
       <article class="task ${done ? 'is-done' : ''}" data-task-id="${Utils.esc(task.id)}">
-        <div class="task__check" data-action="toggle">
+        <div class="task__check" data-action="toggle" role="checkbox" tabindex="0">
           <div class="checkbox-circle">
             <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
         </div>
         <div class="task__body">
-          <div class="task__row">
-            <span class="task__label">${Utils.esc(task.label)}</span>
+          <span class="task__label">${Utils.esc(task.label)}</span>
+          <div class="task__meta">
+            <span class="${catChipClass}" style="${catStyleAttr(cat)}">${Utils.esc(cat?.label || 'Otro')}</span>
             <span class="task__time">${time}</span>
           </div>
-          <div class="task__meta">
-            <span class="pill" style="--c:${cat?.color}20;color:${cat?.color};border-color:transparent;background:${cat?.color}1a;">
-              ${Utils.esc(cat?.label || 'Otro')}
-            </span>
-          </div>
-          ${note ? `<p class="task__note">${Utils.esc(note)}</p>` : ''}
-          <div class="task__note-input">
-            <textarea class="textarea" placeholder="Añadir una nota a esta tarea…" data-action="note">${Utils.esc(note || '')}</textarea>
+          ${note ? `<p class="task__note-display">${Utils.esc(note)}</p>` : ''}
+          <div class="task__note-form">
+            <textarea class="textarea" placeholder="Escribe una nota…" data-action="note">${Utils.esc(note || '')}</textarea>
           </div>
         </div>
-        <div class="task__toggle" data-action="expand" aria-label="Expandir">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="task__expand" data-action="expand" aria-label="Expandir">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
-        </div>
+        </button>
       </article>
     `;
+  },
+
+  catChipClass(cat) {
+    // Map category color hue to a base chip variant for the strong tokens.
+    const map = {
+      '#6ee7b7': 'chip chip--sage',
+      '#00c07a': 'chip chip--sage',
+      '#0091ff': 'chip chip--indigo',
+      '#6647f0': 'chip chip--indigo',
+      '#3a4a6b': 'chip chip--indigo',
+    };
+    return map[cat?.color?.toLowerCase?.()] || 'chip';
   },
 
   bindEvents() {
@@ -179,5 +191,11 @@ const TodayView = {
     });
   },
 };
+
+function catStyleAttr(cat) {
+  if (!cat) return '';
+  // Use a soft tint from the category color
+  return `background:${cat.color}1a;color:${cat.color};border:none;`;
+}
 
 window.TodayView = TodayView;

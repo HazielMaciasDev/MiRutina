@@ -1,529 +1,342 @@
-# ClickUp™ — Style Reference
-> Hardworking dashboard on white marble. The page is a product brochure for a productivity tool, so the visual language borrows from the product itself: dense lists, status pills, avatar clusters, and bold typographic claims that read like a product spec sheet at exhibition scale.
+# Mi Rutina — Design System
+> A quiet, editorial interface for tracking daily rhythms. The visual language borrows from a private journal: warm paper, generous typography, and a single accent that earns its color through restraint.
 
-**Theme:** light
+**Theme:** Light.
 
-Source measurements are normalized; roles and recommendations are interpreted. Font summary lists are independent, not paired by position. HTML examples are reconstructions, not source components.
-
-ClickUp speaks in a sharp, high-contrast productivity dialect: a white canvas where oversized bold headlines (52-80px, weight 650-800, tracking pulled to -0.04em) collide with compact 14px button labels and a black filled CTA. The signature move is the 9999px pill — chips, tags, nav items, and badges all share one relentless full-radius curve, giving the interface a soft, rounded personality against otherwise hard typographic weight. Color is used surgically: a single vivid purple (#6647f0) stamps brand identity, blue (#0091ff) handles interactive links, and the rest of the system is pure grayscale. Rotating conic-gradient borders animate around hero elements, the only moment the page lets its hair down. The product UI screenshot on the right of the hero anchors the brand: real, dense, working software — not abstract gradients or stock illustration.
+The aesthetic is *refined editorial*: a warm off-white canvas (#faf7f2) where oversized serif headlines (56–80px, weight 500–600, optical sizing off) sit next to compact sans-serif body text. The signature move is **alignment to a vertical grid** — numerals, dates and percentages share a strict baseline so the eye can scan a month at a glance. Color is deliberately muted: warm greys for structure, a single saturated accent (mandarina quemada `#e85a1a`) for *today* and primary actions, a desaturated sage `#6b8e6f` for *done*. The conic-gradient rainbow border is reserved for the floating action button — one moment of warmth per viewport. Everything else is paper, ink, and quiet rhythm.
 
 ## Tokens — Colors
 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
-| Signal White | `#ffffff` | `--color-signal-white` | Page background, card surfaces, button fills — the default canvas against which every other color is placed |
-| Ink Black | `#202020` | `--color-ink-black` | Primary action fills, headline text, filled CTA buttons — near-black at 12.9:1 on white for confident authority without pure #000 harshness |
-| Onyx | `#090c1d` | `--color-onyx` | Headlines at maximum scale (48-80px display) — the deepest near-black with a barely perceptible cool tint |
-| Carbon | `#2a2a2a` | `--color-carbon` | Card borders, button text on light fills, section dividers — the workhorse dark neutral for structural elements |
-| Slate | `#646464` | `--color-slate` | Body text secondary, link text, nav labels, icon fills — carries the 153-occurrence body copy load |
-| Ash | `#838383` | `--color-ash` | Tertiary text, muted nav, meta labels, disabled states — recedes into the background hierarchy |
-| Fog | `#b3b3b3` | `--color-fog` | Card borders at low contrast, subtle dividers, placeholder accents — the lightest border that still reads on white |
-| Cloud | `#d4d4d4` | `--color-cloud` | Hairline borders, dashed dividers, input outlines — appears 49× as borderColor |
-| Bone | `#e8e8e8` | `--color-bone` | Default border color (88× in buttons), the most-used border tone in the system |
-| Mist | `#f8f9fa` | `--color-mist` | Light neutral action fill for buttons on dark surfaces. |
-| Plaster | `#e9ebf0` | `--color-plaster` | Body section background band — appears 500×, the large neutral that breaks white sections |
-| Mercury | `#eeeeee` | `--color-mercury` | Badge text, card accents, neutral chip backgrounds — soft contrast for non-interactive surfaces |
-| Brand Violet | `#6647f0` | `--color-brand-violet` | Violet state accent for badges, validation surfaces, and short status labels. |
-| Signal Blue | `#0091ff` | `--color-signal-blue` | Blue accent for outlined action borders, linked labels, and lightweight interactive emphasis. Do not promote it to the primary CTA color |
-| Mint | `#6ee7b7` | `--color-mint` | Green text accent for links, tags, and emphasized short phrases |
-| Emerald | `#00c07a` | `--color-emerald` | Green outline accent for tags, dividers, and focused UI edges |
-| Teal Tag | `#16c0a4` | `--color-teal-tag` | Teal state accent for badges, validation surfaces, and short status labels. |
-| Rainbow Conic | `conic-gradient(from 90deg, rgb(125, 91, 231) 19%, rgb(188, 63, 218) 28%, rgb(250, 36, 206) 37%, rgb(251, 73, 165) 45%, rgb(252, 109, 123) 52%, rgb(253, 132, 97) 55%, rgb(253, 154, 70) 58%, rgb(246, 135, 198) 65%, rgb(163, 160, 224) 80%, rgb(79, 185, 250) 95%, rgb(0, 145, 255) 100%)` | `--color-rainbow-conic` | Animated conic-gradient border rotating around hero CTAs and Brain² element — the brand's most expressive moment |
-| Primary Gradient | `linear-gradient(83deg,rgba(64,221,255) -5%,rgba(118,18,250) 51%,rgba(250,18,227) 125%)` | `--color-primary-gradient` | Cyan-to-magenta linear gradient for premium brand moments, 83deg angle — the system gradient for hero text and premium badges |
-| Dark Fade | `linear-gradient(rgb(17, 17, 17) 24%, rgb(0, 0, 0))` | `--color-dark-fade` | Section-level dark gradient from charcoal to true black — used on dark feature panels |
+| Paper | `#faf7f2` | `--color-paper` | Page background — warm off-white, the default canvas. Never pure white. |
+| Linen | `#f1ead9` | `--color-linen` | Card surfaces, elevated sections, slightly warmer than paper. |
+| Parchment | `#ebe3d0` | `--color-parchment` | Subtle band backgrounds, used like a margin in a journal. |
+| Ink | `#1a1310` | `--color-ink` | Primary text, headlines, filled buttons. Warm near-black with brown undertone (not cool). |
+| Charcoal | `#3d3530` | `--color-charcoal` | Body text, secondary structural elements. |
+| Smoke | `#756c63` | `--color-smoke` | Tertiary text, captions, meta labels. |
+| Mist | `#a89e91` | `--color-mist` | Disabled text, placeholder. |
+| Stone | `#d6cebd` | `--color-stone` | Default border (1px), hairlines. |
+| Sand | `#e3dccb` | `--color-sand` | Soft border for less prominent dividers. |
+| Accent | `#e85a1a` | `--color-accent` | Primary accent — today, primary CTAs, focus state. Saturated mandarina on warm paper. |
+| Accent Soft | `#fbece0` | `#fbece0` | Accent backgrounds (chips, hover). |
+| Sage | `#6b8e6f` | `--color-sage` | Done state, success, completed progress. |
+| Sage Soft | `#e8f0e6` | `--color-sage-soft` | Sage backgrounds, "done" badges. |
+| Indigo | `#3a4a6b` | `--color-indigo` | Info, links, secondary accents. Cool counterpoint to warm accent. |
+| Indigo Soft | `#e7ebf2` | `--color-indigo-soft` | Indigo backgrounds. |
+| Rainbow Conic | `conic-gradient(from 90deg, #e85a1a 0%, #d4a017 14%, #6b8e6f 28%, #3a4a6b 42%, #6b4d8e 56%, #a85a7a 70%, #e85a1a 84%, #fbece0 100%)` | `--gradient-conic-warm` | Warm conic gradient — orange, gold, sage, indigo, plum. Used ONLY on the FAB and one hero element per view. |
+| Ink Fade | `linear-gradient(180deg, rgba(26,19,16,0.04) 0%, rgba(26,19,16,0) 50%)` | `--gradient-ink-fade` | Subtle ink-fade at top of dark elements. |
 
 ## Tokens — Typography
 
-### Plus Jakarta Sans — Primary brand typeface — handles all display headings (48-80px at weight 650-800, tracking -0.04em), body copy (16px/400), and button labels (14px/700). The geometric humanist proportions give headlines a confident, modern stance. Weight 800 at 42px for ultra-bold emphasis. Substitute: Inter or General Sans if unavailable. · `--font-plus-jakarta-sans`
-- **Substitute:** Inter
-- **Weights:** 400, 500, 600, 650, 700, 800
-- **Sizes:** 14, 16, 34, 42, 48, 52, 60, 80
-- **Line height:** 1.05–1.50
-- **Letter spacing:** -0.0400em at 80px/52px, -0.0350em at 60px/48px, -0.0230em at 34px, normal at 16px body
-- **OpenType features:** `"calt" 0`
-- **Role:** Primary brand typeface — handles all display headings (48-80px at weight 650-800, tracking -0.04em), body copy (16px/400), and button labels (14px/700). The geometric humanist proportions give headlines a confident, modern stance. Weight 800 at 42px for ultra-bold emphasis. Substitute: Inter or General Sans if unavailable.
+### Newsreader — Display typeface for headlines, big numerals, dates.
+> A contemporary serif by Production Type / Google Fonts. Optical sizing for screens, slight contrast in the strokes, warm personality at large sizes. Weight 500–600 keeps it elegant (not bold-heavy); for stats you'll go in 600 with negative tracking to feel confident.
+- **Weights:** 400, 500, 600
+- **Sizes:** 13, 28, 40, 56, 72, 96
+- **Line height:** 1.05–1.20
+- **Letter spacing:** -0.035em at 96/72px, -0.025em at 56/40px, normal at body
+- **Substitute:** Source Serif 4
+- **Role:** Display headlines, big numerals (rango, %), dates. The serif gives the app a *journal* personality instead of a dashboard one.
 
-### Inter — Secondary workhorse for supporting copy, body text in cards, captions, and micro-labels (8-24px). Used where Plus Jakarta would be too heavy or where extra x-height clarity is needed. Substitute: system-ui. · `--font-inter`
-- **Substitute:** system-ui
-- **Weights:** 400, 500, 600, 650, 700
-- **Sizes:** 8, 12, 14, 15, 16, 17, 18, 19, 20, 24
-- **Line height:** 0.90–1.57
-- **Letter spacing:** -0.0260em at 24px, -0.0200em at 20px, -0.0140em at 18px, -0.0100em at 16px, -0.0080em at 8px
-- **OpenType features:** `"calt" 0, "clig" 0, "liga" 0`
-- **Role:** Secondary workhorse for supporting copy, body text in cards, captions, and micro-labels (8-24px). Used where Plus Jakarta would be too heavy or where extra x-height clarity is needed. Substitute: system-ui.
+### Geist — Workhorse for buttons, body, labels, micro-copy.
+> Geometric humanist sans by Vercel. Clean, neutral, designed for screens. Used everywhere except display headlines.
+- **Weights:** 400, 500, 600, 700
+- **Sizes:** 11, 12, 13, 14, 15, 17
+- **Line height:** 1.40–1.55
+- **Letter spacing:** normal at body, -0.005em at large sizes
+- **Role:** Body copy, button labels (13px/700), inputs, small labels (10px tracking 0.06em uppercase).
 
-### Sometype Mono — Monospaced accent for 'status' labels, feature tags, code-like annotations, and the 10px tracking-wide uppercase meta labels (ls=0.0600-0.0800em). Brings a technical, almost developer-tool personality. Substitute: JetBrains Mono or IBM Plex Mono. · `--font-sometype-mono`
-- **Substitute:** JetBrains Mono
+### JetBrains Mono — Micro labels, timestamps, tabular numbers.
+> Mono with a technical personality but warm proportions. Used for timestamps (e.g. "5:30 am"), uppercase meta labels (10–11px, +0.06em tracking), and tabular numerals in stats.
 - **Weights:** 400, 500
-- **Sizes:** 10, 12, 14, 16, 40
-- **Line height:** 1.10–2.00
-- **Letter spacing:** 0.0600em at 12px uppercase, 0.0800em at 10px uppercase, -0.0080em at body sizes
-- **Role:** Monospaced accent for 'status' labels, feature tags, code-like annotations, and the 10px tracking-wide uppercase meta labels (ls=0.0600-0.0800em). Brings a technical, almost developer-tool personality. Substitute: JetBrains Mono or IBM Plex Mono.
-
-### SF Pro — SF Pro — detected in extracted data but not described by AI · `--font-sf-pro`
-- **Weights:** 500, 590
-- **Sizes:** 12px
-- **Line height:** 1.5
-- **Role:** SF Pro — detected in extracted data but not described by AI
+- **Sizes:** 10, 11, 12, 13
+- **Line height:** 1.30
+- **Role:** Timestamps in tasks, tabular numbers in stats, mono labels.
 
 ### Type Scale
 
 | Role | Family | Weight | Size | Line Height | Letter Spacing | Token |
 |------|--------|--------|------|-------------|----------------|-------|
-| body-sm | — | — | 14px | 1.5 | -0.01px | `--text-body-sm` |
-| body | — | — | 16px | 1.5 | -0.01px | `--text-body` |
-| subheading | — | — | 20px | 1.5 | -0.02px | `--text-subheading` |
-| heading-sm | — | — | 34px | 1.2 | -0.04px | `--text-heading-sm` |
-| heading | — | — | 48px | 1.25 | -0.035px | `--text-heading` |
-| heading-lg | — | — | 60px | 1.1 | -0.035px | `--text-heading-lg` |
-| display | — | — | 80px | 1.2 | -0.04px | `--text-display` |
+| mono-label | JetBrains Mono | 500 | 11px | 1.30 | 0.06em uppercase | `--text-mono-label` |
+| micro | Geist | 500 | 11px | 1.40 | normal | `--text-micro` |
+| body-sm | Geist | 400 | 13px | 1.50 | -0.005em | `--text-body-sm` |
+| body | Geist | 400 | 15px | 1.55 | -0.005em | `--text-body` |
+| subhead | Geist | 600 | 17px | 1.40 | -0.01em | `--text-subhead` |
+| title | Newsreader | 600 | 28px | 1.15 | -0.02em | `--text-title` |
+| headline | Newsreader | 500 | 40px | 1.10 | -0.03em | `--text-headline` |
+| display | Newsreader | 500 | 56px | 1.05 | -0.035em | `--text-display` |
+| numeral | Newsreader | 500 | 72–96px | 1.00 | -0.04em | `--text-numeral` |
 
 ## Tokens — Spacing & Shapes
 
-**Base unit:** 4px
+**Base unit:** 4px. Compact density with editorial breathing room — sections separate by 64–80px, internal elements by 8–12px.
 
-**Density:** compact
-
-### Spacing Scale
+### Spacing
 
 | Name | Value | Token |
 |------|-------|-------|
-| 4 | 4px | `--spacing-4` |
-| 8 | 8px | `--spacing-8` |
-| 12 | 12px | `--spacing-12` |
-| 16 | 16px | `--spacing-16` |
-| 20 | 20px | `--spacing-20` |
-| 24 | 24px | `--spacing-24` |
-| 28 | 28px | `--spacing-28` |
-| 32 | 32px | `--spacing-32` |
-| 40 | 40px | `--spacing-40` |
-| 48 | 48px | `--spacing-48` |
-| 52 | 52px | `--spacing-52` |
-| 56 | 56px | `--spacing-56` |
-| 72 | 72px | `--spacing-72` |
-| 80 | 80px | `--spacing-80` |
-| 100 | 100px | `--spacing-100` |
+| 1 | 4px | `--space-1` |
+| 2 | 8px | `--space-2` |
+| 3 | 12px | `--space-3` |
+| 4 | 16px | `--space-4` |
+| 5 | 24px | `--space-5` |
+| 6 | 32px | `--space-6` |
+| 7 | 48px | `--space-7` |
+| 8 | 64px | `--space-8` |
 
 ### Border Radius
 
 | Element | Value |
 |---------|-------|
-| tags | 100px |
-| cards | 12px |
-| badges | 9999px |
-| images | 16px |
-| inputs | 9px |
-| buttons | 9999px |
-| largeCards | 20px |
+| chips | 100px (pill) |
+| cards | 14px |
+| inputs | 10px |
+| buttons | 12px (NOT pill — rounded rectangle, calmer) |
+| numerals | 0 (asymmetric — large numbers have no rounding; cards around them have 14px) |
+| large cards | 20px |
 
-### Shadows
+### Shadows (used sparingly)
 
-| Name | Value | Token |
-|------|-------|-------|
-| subtle | `rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0p...` | `--shadow-subtle` |
-| subtle-2 | `rgba(18, 43, 165, 0.04) 0px 1px 1px -0.5px, rgba(18, 43, ...` | `--shadow-subtle-2` |
-| xl | `rgba(0, 0, 0, 0.17) -34px -13px 37px 0px, rgba(0, 0, 0, 0...` | `--shadow-xl` |
-| sm | `rgba(13, 21, 48, 0.04) 0px 4px 4px 0px` | `--shadow-sm` |
-| md | `rgba(0, 0, 0, 0.43) -8px 10px 13px 0px, rgba(0, 0, 0, 0.4...` | `--shadow-md` |
-| subtle-3 | `rgba(255, 255, 255, 0.1) 0px 0.5px 0px 0px inset, rgba(25...` | `--shadow-subtle-3` |
-| xl-2 | `rgba(0, 0, 0, 0.55) 0px -13px 32px 0px` | `--shadow-xl-2` |
-| xl-3 | `rgba(0, 0, 0, 0.55) 0px -12px 29px 0px` | `--shadow-xl-3` |
-| xl-4 | `rgba(0, 0, 0, 0.55) 0px -11px 26px 0px` | `--shadow-xl-4` |
+| Name | Value | Role |
+|------|-------|------|
+| lift | `0 1px 0 rgba(26,19,16,0.04), 0 4px 16px -8px rgba(26,19,16,0.08)` | FAB, modals only. |
+| inset-paper | `inset 0 0 0 1px rgba(214,206,189,0.6)` | Subtle inset border instead of shadows. |
 
-### Layout
-
-- **Page max-width:** 1200px
-- **Section gap:** 80px
-- **Card padding:** 28px
-- **Element gap:** 12px
-
-## Components
-
-### Filled Dark CTA Button
-**Role:** Primary action — the most important button on any page
-
-Background #202020, text #ffffff at 14px Plus Jakarta Sans weight 700, border-radius 9999px (fully pill-shaped), padding 12px 24px, no border. Single solid color, no shadow. Used for 'Get started. It's FREE!', 'Sign Up' in header.
-
-### Ghost Outline Button
-**Role:** Secondary action or alternative path
-
-Background transparent, 1px border in #e8e8e8 or #0091ff (blue for interactive, gray for neutral), text #202020 at 14px weight 700, border-radius 9999px, padding 10px 20px. The blue-border variant signals a chromatic outlined action.
-
-### Nav Pill Button
-**Role:** Compact interactive element in header/nav strips
-
-Background rgba(0,0,0,0.04) hover, text #2a2a2a at 14-16px, border-radius 9999px, padding 4px 12px (very compact). No visible border. Sits inline with other nav items.
-
-### Feature Tag Pill
-**Role:** Category or feature tags (e.g., 'Projects', 'Docs', 'Chat')
-
-Background transparent or #f8f9fa, text #202020 or #0091ff at 14px weight 700, border-radius 9999px, padding 8px 16px, no border or 1px #e8e8e8. The blue-text variant indicates the currently active or highlighted tag.
-
-### Product Screenshot Card
-**Role:** Hero image container — the product UI screenshot on the right side of the hero
-
-No background fill, border-radius 12px, no shadow, the screenshot sits on the white canvas with breathing room. Padding 0 (screenshot is the content). 16-32px corner radius on screenshot itself.
-
-### Stat Callout Card
-**Role:** Large-number statistics in social proof sections (e.g., '85%', '3M+')
-
-White background (#ffffff), no border, no shadow, padding 28px. Number in Plus Jakarta Sans 60-80px weight 700, tracking -0.04em, color #090c1d. Caption below in Inter 16-18px, color #646464.
-
-### Dark Feature Card
-**Role:** Dark surface card for contrast sections (the 'Brain' feature block)
-
-Background #000000 to #191919 with subtle linear-gradient fade, border-radius 12-16px, no visible border, padding 40-80px vertical. White text (#ffffff) for headings at 48-60px weight 650, gray text (#b3b3b3) for body.
-
-### Trust Badge Strip
-**Role:** 'Trusted by' logo row beneath hero
-
-No background, horizontal flex layout, logos rendered in #838383 to #202020 grayscale. No borders, no cards. Heading label 'TRUSTED BY THE BEST' in Sometype Mono 10px weight 400, tracking 0.08em, uppercase, color #838383.
-
-### Rounded Avatar Cluster
-**Role:** User avatar groups in product UI (Inbox, Tasks views)
-
-Circular avatars (border-radius 9999px), 24-32px diameter, overlapping by ~8px, 1-2px white stroke border to separate overlapping faces. Mix of brand-tinted and neutral fills.
-
-### G2 Award Badge
-**Role:** 'Best Software' award badges in social proof grid
-
-White card with 1px #d4d4d4 border, border-radius 8px, padding 16px, G2 red logo top-left, tier text centered, orange/blue gradient chevron at bottom. 3-column grid arrangement.
-
-### Conic Gradient Border Element
-**Role:** Hero CTA or premium feature element with animated rainbow border
-
-1.5-2px conic-gradient border rotating at 0.45s linear infinite, starting from 90deg, cycling through #7d5be7 → #bc3fda → #fa24ce → #fb49a5 → #fc6d7b → #fd8461 → #fd9a46 → #f687c6 → #a3a0e0 → #4fb9fa → #0091ff. Inner fill white. Border-radius 9999px for pill, 12-20px for cards.
-
-### Checkmark List Item
-**Role:** Benefit bullets in hero (✓ Save money. ✓ Save time. ✓ Create infinite productivity.)
-
-Blue checkmark icon (#0091ff) at 18px, bold lead text (#202020, 14-16px weight 600-700) followed by regular-weight descriptor text in #646464. 8-12px row gap between items.
-
-### Status Pill (In UI Screenshot)
-**Role:** In-product status indicators visible in hero screenshot
-
-Pill-shaped with border-radius 9999px, small text 10-12px weight 600, colored backgrounds: green #6ee7b7 bg with dark text for 'DONE', blue #0091ff bg with white text for 'IN PROGRESS', pink/magenta for overdue. Padding 3px 9px.
-
-## Do's and Don'ts
-
-### Do
-- Use Plus Jakarta Sans at weight 650-800 for any display text 34px or larger — the heavy weight with tight tracking is the brand's typographic signature
-- Default all buttons, tags, and badges to border-radius 9999px — the fully-pill curve is the system's most consistent geometric choice
-- Use #202020 (not pure #000) for filled CTA buttons and headline text — the slight softness reads more premium than absolute black
-- Apply -0.04em letter-spacing to all display text 48px+ — the aggressive negative tracking is what makes the headlines feel confident rather than shy
-- Use #6647f0 purple exclusively for brand identity moments (badges, Brain² tags, brand icon) — never as a primary action fill
-- Maintain a 4px spacing base unit; snap all padding and margin values to multiples of 4
-- Use 1px solid #e8e8e8 as the default border — 88 occurrences in buttons make it the structural baseline
-- Add the rotating conic-gradient border to one hero element per page — restraint keeps the rainbow effect from becoming visual noise
-
-### Don't
-- Don't use #000000 for large text fills or backgrounds — use #202020 (Ink Black) or #090c1d (Onyx) instead for softer contrast
-- Don't mix multiple border-radius values on the same component level — if buttons are 9999px, every button stays 9999px
-- Don't use Plus Jakarta Sans below 14px — it gets too geometric for small text; switch to Inter for body-sm and caption roles
-- Don't apply the brand purple #6647f0 to primary CTA buttons — it appears only on badges and brand marks
-- Don't stack more than two surface elevation levels in a single section — the system relies on flat hierarchy, not deep shadow stacking
-- Don't use letter-spacing wider than 0 for any body text — positive tracking appears only on uppercase mono labels
-- Don't use Inter as a display font — it lacks the geometric authority of Plus Jakarta Sans at large sizes
-- Don't add decorative gradients to cards or section backgrounds — gradients belong only in the conic border animation and hero text
+The system has flat shadow culture by default. Cards are defined by background shift (paper → linen) and 1px stone borders, not by drop shadows. Only the FAB and modal bottom-sheets use shadows.
 
 ## Surfaces
 
 | Level | Name | Value | Purpose |
 |-------|------|-------|---------|
-| 1 | Canvas | `#ffffff` | Page background — the default surface for 95% of the page |
-| 2 | Card | `#f8f9fa` | Elevated card surface, subtle off-white for content blocks and secondary panels |
-| 3 | Section Band | `#e9ebf0` | Large alternating section background to break white rhythm (appears 500× as body bg) |
-| 4 | Dark Panel | `#111111` | Dark feature sections for contrast — gradient-faded from charcoal to true black |
-| 5 | Ink Surface | `#000000` | Product screenshot context and deep-contrast feature cards |
-
-## Elevation
-
-The system treats elevation as negative space rather than positive shadow. Cards are defined by 1px #e8e8e8 borders or subtle #f8f9fa background shifts, not by drop shadows. The single exception is the product screenshot card which gets a soft directional shadow to lift it off the canvas. This flat-first approach makes the rare shadow (and the animated conic gradient) feel dramatic by contrast.
-
-## Imagery
-
-The page is UI-screenshot-dominant, not photo-dominant. The hero features a real product UI screenshot of the ClickUp app (sidebar nav, inbox, task list with status pills and avatar clusters) rendered at large scale. Secondary visuals include: G2 award badge grid (grayscale with red G2 logos), logo strip for 'trusted by' (Amazon, NVIDIA, Wayfair, Verizon, Spotify, Stanford — all rendered flat in grayscale), and abstract decorative elements made of gray swirling line-art (the 'context loss' illustration uses tangled gray ribbons with floating app icons). Photography is essentially absent. The visual language is: show the product, show the awards, show the logos — no stock lifestyle photography, no hero videos. Icons are colorful and flat in the product UI (red, blue, green, purple app icons) but rendered in single-tone grayscale in decorative contexts.
+| 1 | Paper | `#faf7f2` | Page background. Default canvas. |
+| 2 | Linen | `#f1ead9` | Elevated card surface, modals, FAB resting state. |
+| 3 | Parchment | `#ebe3d0` | Section bands, used like a journal page background. |
 
 ## Layout
 
-Max-width 1200px centered, no sidebar. Hero is a 2-column split: left column holds the headline (80px display), checkmark benefit list, dark filled CTA, and a row of feature tag pills; right column holds the product UI screenshot at full column width. Below the hero, sections alternate: a centered-headline illustration section (the tangled gray 'context loss' graphic), then a G2 awards section (text left / badge grid right), then a stats band with large numbers. Navigation is a single top bar with logo, 6 nav items (some with dropdown indicators), a 'Get a Demo' ghost link, a 'Login' ghost button, and a 'Sign Up' filled dark pill. Section gaps are large (~80px) while internal element gaps are compact (8-12px), creating a rhythmic density contrast: tight inside sections, spacious between them. The page reads top-to-bottom as: announcement bar → nav → hero split → social proof logos → illustration section → awards grid → stats → footer.
+- **Page max-width:** 560px (mobile-first, intentionally narrow for editorial rhythm; on tablet the tabbar centers)
+- **Section gap:** 64–80px
+- **Card padding:** 20px
+- **Element gap:** 8–12px
+- **Vertical grid baseline:** 8px — all numbers and labels share an 8px baseline so the eye can scan a month at a glance
 
-## Agent Prompt Guide
+## Components
 
-**Quick Color Reference**
-- Text: #202020 (primary), #646464 (secondary), #838383 (tertiary)
-- Background: #ffffff (canvas), #f8f9fa (card), #e9ebf0 (section band)
-- Border: #e8e8e8 (default), #d4d4d4 (hairline), #0091ff (interactive accent)
-- Brand: #6647f0 (purple — badges, brand identity only)
-- primary action: #202020 (filled action)
+### Ink Button (Primary)
+**Role:** Primary action — the most important button on any view.
 
-**3 Example Component Prompts**
+Background `--color-ink` (#1a1310), text `--color-paper` (#faf7f2) at 13px Geist weight 700, border-radius **12px** (not pill — softer editorial), padding 12px 20px. Subtle 1px inner lighter edge using box-shadow `inset 0 0 0 1px rgba(214,206,189,0.15)`.
 
-1. Create a Primary Action Button: #202020 background, #ffffff text, 9999px radius, compact pill padding. Use this filled treatment for the main CTA.
+### Quiet Button (Secondary)
+**Role:** Secondary action or alternative path.
 
+Background transparent, 1px border `--color-stone`, text `--color-ink`, border-radius 12px, padding 11px 19px.
 
-3. **Dark Feature Card**: Create a dark surface card with background gradient from #111111 to #000000, border-radius 16px, padding 80px 40px. White headline (#ffffff) at 48px Plus Jakarta Sans weight 650, tracking -0.035em. Body text in #b3b3b3 at 16px Inter. A 2px rotating conic-gradient border (cycling through #7d5be7 → #0091ff → #fa24ce) wraps a white inner button with blue text.
+### Accent Pill (CTA emphasis)
+**Role:** A pill-shaped primary call when you want the accent color. NOT the default button shape.
 
-## Gradient System
+Background `--color-accent` (#e85a1a), text paper, border-radius 100px (pill), padding 10px 18px, 13px Geist weight 700. Used for "today" markers, focused actions, and one prominent CTA per view.
 
-Two gradient families serve distinct purposes:
+### Date Card (Today)
+**Role:** The hero on the HOY view.
 
-**1. Conic Gradients — Animation**: Used exclusively for the rotating border effect on hero CTAs and the Brain² element. The signature 11-stop conic (violet → magenta → pink → orange → cyan → blue) rotates at 0.45s linear infinite, creating a rainbow chase. This is the brand's most expressive visual moment and should appear at most once per page section.
+No background fill, no shadow. A massive date numeral in Newsreader 72–96px (left-aligned), day name and month in small mono uppercase above. Subtle horizontal rule beneath in `--color-stone`. Border-radius 0. The date is the headline — let the typography do the work.
 
-**2. Linear Gradients — Static Brand**: The 83deg cyan-to-magenta primary gradient (#40ddff → #7612fa → #fa18e3) is used for premium text treatments and the 'Brain²' wordmark. The 97deg dark-to-gray gradient (#202020 → #8f8f8f) is used on premium badges and feature highlights.
+### Task Row
+**Role:** One task in the checklist.
 
-**3. Dark Fades**: linear-gradient(#111111 24%, #000000) creates the 'abyss' effect on dark feature panels — a subtle 3-stop fade from charcoal to true black that adds depth without a flat black surface.
+Background paper, 1px bottom border `--color-sand` (no left/right/top borders — feels like ruled paper), padding 14px 0. Three columns: **checkbox circle** (24px) — **task label + meta** (flex) — **time** (mono, right-aligned). No card border-radius — items are flat rows that align vertically to an 8px baseline.
+
+### Task Checkbox
+**Role:** Toggle state.
+
+24px diameter, 1.5px border `--color-stone` (idle) → filled `--color-sage` with white checkmark (done). No animation beyond a 150ms background swap. Border-radius 100px (full pill — a small geometric exception to make the check stand out against the squared rows).
+
+### Tag Chip (Category)
+**Role:** Category label on tasks.
+
+Background `--color-accent-soft` for accent categories, `--color-sage-soft` for sage, `--color-indigo-soft` for indigo, etc. Text in saturated category color. Border-radius 100px. Padding 3px 9px. 11px Geist weight 600. No border.
+
+### Stat Card
+**Role:** Numerical KPI in Stats view.
+
+Background linen, no border, padding 20px. Numeral in Newsreader 40–56px weight 500. Label in mono uppercase 11px tracking 0.06em above the numeral. No shadow.
+
+### Day Cell (Calendar)
+**Role:** One day in the monthly calendar.
+
+Square aspect-ratio, no background fill, text charcoal. Day number in Newsreader 16px weight 500 centered. Optional small dot (3px) below in sage if any task was done. Today: background `--color-ink` (deep ink) with paper text. Future: text `--color-mist`. No borders on individual cells.
+
+### Tab Bar (Mobile)
+**Role:** Bottom navigation.
+
+Background paper with 1px top border stone. Three tabs evenly spaced. Active tab: ink color, label 11px uppercase tracking 0.06em, ink icon. Inactive: smoke color. Icon stroke 1.6px. Total height 64px + safe-area-inset-bottom.
+
+### FAB with Warm Conic Border
+**Role:** Floating action button (Stats).
+
+Background linen, 56px diameter, paper-color icon. **The one element with a conic gradient border** — warm orange → gold → sage → indigo → plum cycling at 6s linear infinite, 2px stroke. Sits at bottom-right above the tab bar.
+
+### Progress Track
+**Role:** Daily progress bar on HOY.
+
+A thin (3px) horizontal rule across the page, `--color-stone`. Fill in `--color-sage` from left up to the % width. Border-radius 100px. No card, no padding — just a line. Above the line, two mono labels: left = "12 / 23", right = "52%".
+
+### Section Label
+**Role:** Small section header (Mañana / Tarde / Noche in HOY, or category names in Settings).
+
+All caps, JetBrains Mono 11px weight 500, tracking 0.06em, color `--color-smoke`. Subtle 1px horizontal line `--color-sand` beneath it extending full width.
+
+### Modal Sheet
+**Role:** Bottom sheet for day detail from calendar.
+
+Background linen, border-radius 20px top corners. Slides in 450ms cubic-bezier(0.33, 1, 0.68, 1). Internal padding 24px. A small horizontal "handle" 36×4px in stone, centered above the title.
+
+### Month Nav Header
+**Role:** "Septiembre 2026" with ‹ › in calendar.
+
+Title in Newsreader 28px weight 500. Chevrons are 32×32px circular buttons with stone border.
+
+## Do's and Don'ts
+
+### Do
+- Let the **Newsreader serif** carry the visual weight in headlines and numerals — don't dilute it with sans-serif numerals
+- Use the **vertical 8px baseline grid** for numbers and dates — align % and totals vertically so they read as a column
+- Use `--color-accent` (mandarina) **only** for: today's cell, the FAB, the active focus state, and one CTA per view
+- Use `--color-sage` (verde salvia) **only** for: done states and completion
+- Use 1px `--color-stone` borders as the structural baseline — never use shadows on cards
+- Reserve the **conic gradient border** for ONE element per view (the FAB or one prominent CTA) — it earns attention by scarcity
+- Keep numerals at minimum 40px — small numbers feel like dashboard widgets, big numbers feel like a printed page
+
+### Don't
+- Don't use pure white (`#fff`) anywhere — `--color-paper` (#faf7f2) is always warmer and softer
+- Don't use pure black (`#000`) — `--color-ink` (#1a1310) is warm near-black
+- Don't use pill shape for primary buttons — use 12px rounded rectangle; pills are reserved for chips and accent CTAs
+- Don't use more than 3 surface levels on one view — flat-first, like a printed page
+- Don't use the accent color for borders or large fills — only for small CTAs, today markers, and focus
+- Don't use emojis in IDs, labels, or content
+- Don't drop shadows on cards — use background shifts (paper → linen) and 1px borders
+- Don't center everything — left-align dates, numerals, and stats for that journal rhythm
+
+## Surfaces
+
+| Level | Name | Value | Purpose |
+|-------|------|-------|---------|
+| 1 | Paper | `#faf7f2` | Page background. Default canvas. |
+| 2 | Linen | `#f1ead9` | Elevated card surface, modals, FAB resting state. |
+| 3 | Parchment | `#ebe3d0` | Section bands, used like a journal page background. |
+
+## Elevation
+
+The system treats elevation as background shift rather than shadow. Linen (`#f1ead9`) on Paper (`#faf7f2`) is the equivalent of an inset shadow — cards are recognized by tone, not depth. The single exception is the FAB and modal bottom-sheet, which use a subtle lift shadow because they float above scrolling content. No card uses shadow.
+
+## Imagery
+
+The interface is typography-dominant. No photographs, no illustrations, no decorative graphics. The visual interest comes from:
+- **Typography hierarchy** — Newsreader display vs body sans creates rhythm
+- **The 8px vertical grid** — numbers and labels align across rows like a printed ledger
+- **Tone contrast** — paper / linen / parchment as the only "depth"
+- **The conic-gradient border** — one moment of warmth per viewport
+
+Icons are line-based (1.6px stroke), monochrome, in `--color-ink` or `--color-smoke`. No filled icons, no two-tone.
+
+## Layout
+
+Mobile-first. Single column. Max-width 560px centered on tablet, with the tabbar floating and centered at the bottom. Hero on HOY is a massive left-aligned date numeral (72–96px Newsreader) with a day name and month above in mono uppercase. Below the date, a 1px stone rule, then a thin progress line with mono labels. Then tasks below. The view scrolls vertically; no sidebars, no grids above the calendar.
+
+Stats is a similar single-column: a big numeral for the streak, a thin rule, then 2-column KPI cards, then week bars, then calendar. Settings is a list of day sections.
 
 ## Motion Philosophy
 
-Motion is expressive but constrained. The dominant duration is 0.45s (1000 occurrences) with a cubic-bezier(0.33, 1, 0.68, 1) ease — a slow-out curve that feels like content settling into place. Secondary durations are 0.25s and 0.3s for state changes. The hero conic gradient rotates at 0.45s linear, creating constant motion that draws the eye to the single brand-significant CTA. Hover transitions use 0.15s for instant feedback. Named animations (Brain2MemoryVisual, ContextCardVisual, HomeHero4o) all involve border-pulse or rainbow-rotation effects tied to the conic gradient system. The principle: one dramatic continuous animation per viewport, everything else settles with soft ease-out.
+Motion is restrained. The dominant duration is **450ms** with cubic-bezier(0.33, 1, 0.68, 1) — a slow ease-out that feels like a page settling into place. Secondary is **200ms** for state changes. The conic gradient on the FAB rotates at **6s linear infinite** — slow enough to be ambient, not distracting. Hover transitions are **120ms** for instant feedback. The principle: one slow continuous motion per viewport (the FAB), everything else settles quietly.
 
-## Similar Brands
-
-- **Linear** — Same tight typographic discipline with display headlines at 48-80px, negative letter-spacing, monochrome canvas with a single brand accent (purple vs Linear's violet), and 9999px pill buttons for primary actions
-- **Notion** — Shared compact density, 4px spacing base, and a flat UI philosophy that relies on hairlines and whitespace instead of heavy shadows; both use a near-black for primary CTAs and reserve color for badges and tags
-- **Vercel** — Similar treatment of black/white/grayscale as the primary palette, with vivid color appearing only in decorative gradient borders; both use a custom geometric sans for display and rely on real product screenshots in hero sections
-- **Webflow** — Comparable use of a conic-gradient rainbow border as the signature brand element, 9999px pills throughout the component system, and product-screenshot-driven hero layouts with bold oversized headlines
-
-## Quick Start
-
-### CSS Custom Properties
+## CSS Custom Properties
 
 ```css
 :root {
   /* Colors */
-  --color-signal-white: #ffffff;
-  --color-ink-black: #202020;
-  --color-onyx: #090c1d;
-  --color-carbon: #2a2a2a;
-  --color-slate: #646464;
-  --color-ash: #838383;
-  --color-fog: #b3b3b3;
-  --color-cloud: #d4d4d4;
-  --color-bone: #e8e8e8;
-  --color-mist: #f8f9fa;
-  --color-plaster: #e9ebf0;
-  --color-mercury: #eeeeee;
-  --color-brand-violet: #6647f0;
-  --color-signal-blue: #0091ff;
-  --color-mint: #6ee7b7;
-  --color-emerald: #00c07a;
-  --color-teal-tag: #16c0a4;
-  --color-rainbow-conic: #7d5be7;
-  --gradient-rainbow-conic: conic-gradient(from 90deg, rgb(125, 91, 231) 19%, rgb(188, 63, 218) 28%, rgb(250, 36, 206) 37%, rgb(251, 73, 165) 45%, rgb(252, 109, 123) 52%, rgb(253, 132, 97) 55%, rgb(253, 154, 70) 58%, rgb(246, 135, 198) 65%, rgb(163, 160, 224) 80%, rgb(79, 185, 250) 95%, rgb(0, 145, 255) 100%);
-  --color-primary-gradient: #40ddff;
-  --gradient-primary-gradient: linear-gradient(83deg,rgba(64,221,255) -5%,rgba(118,18,250) 51%,rgba(250,18,227) 125%);
-  --color-dark-fade: #111111;
-  --gradient-dark-fade: linear-gradient(rgb(17, 17, 17) 24%, rgb(0, 0, 0));
+  --color-paper: #faf7f2;
+  --color-linen: #f1ead9;
+  --color-parchment: #ebe3d0;
+  --color-ink: #1a1310;
+  --color-charcoal: #3d3530;
+  --color-smoke: #756c63;
+  --color-mist: #a89e91;
+  --color-stone: #d6cebd;
+  --color-sand: #e3dccb;
+  --color-accent: #e85a1a;
+  --color-accent-soft: #fbece0;
+  --color-sage: #6b8e6f;
+  --color-sage-soft: #e8f0e6;
+  --color-indigo: #3a4a6b;
+  --color-indigo-soft: #e7ebf2;
 
-  /* Typography — Font Families */
-  --font-plus-jakarta-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-sometype-mono: 'Sometype Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sf-pro: 'SF Pro', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --gradient-conic-warm: conic-gradient(
+    from 90deg,
+    #e85a1a 0%,
+    #d4a017 14%,
+    #6b8e6f 28%,
+    #3a4a6b 42%,
+    #6b4d8e 56%,
+    #a85a7a 70%,
+    #e85a1a 84%,
+    #fbece0 100%
+  );
 
-  /* Typography — Scale */
-  --text-body-sm: 14px;
-  --leading-body-sm: 1.5;
-  --tracking-body-sm: -0.01px;
-  --text-body: 16px;
-  --leading-body: 1.5;
-  --tracking-body: -0.01px;
-  --text-subheading: 20px;
-  --leading-subheading: 1.5;
-  --tracking-subheading: -0.02px;
-  --text-heading-sm: 34px;
-  --leading-heading-sm: 1.2;
-  --tracking-heading-sm: -0.04px;
-  --text-heading: 48px;
-  --leading-heading: 1.25;
-  --tracking-heading: -0.035px;
-  --text-heading-lg: 60px;
-  --leading-heading-lg: 1.1;
-  --tracking-heading-lg: -0.035px;
-  --text-display: 80px;
-  --leading-display: 1.2;
-  --tracking-display: -0.04px;
-
-  /* Typography — Weights */
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-w590: 590;
-  --font-weight-semibold: 600;
-  --font-weight-w650: 650;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
+  /* Fonts */
+  --font-display: 'Newsreader', 'Source Serif 4', ui-serif, Georgia, serif;
+  --font-body: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Spacing */
-  --spacing-unit: 4px;
-  --spacing-4: 4px;
-  --spacing-8: 8px;
-  --spacing-12: 12px;
-  --spacing-16: 16px;
-  --spacing-20: 20px;
-  --spacing-24: 24px;
-  --spacing-28: 28px;
-  --spacing-32: 32px;
-  --spacing-40: 40px;
-  --spacing-48: 48px;
-  --spacing-52: 52px;
-  --spacing-56: 56px;
-  --spacing-72: 72px;
-  --spacing-80: 80px;
-  --spacing-100: 100px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
 
-  /* Layout */
-  --page-max-width: 1200px;
-  --section-gap: 80px;
-  --card-padding: 28px;
-  --element-gap: 12px;
-
-  /* Border Radius */
-  --radius-sm: 1px;
-  --radius-lg: 9px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
-  --radius-2xl-2: 20px;
-  --radius-3xl: 27.72px;
-  --radius-3xl-2: 32px;
-  --radius-3xl-3: 40px;
-  --radius-3xl-4: 45px;
-  --radius-full: 48px;
-  --radius-full-2: 54px;
-  --radius-full-3: 60px;
-  --radius-full-4: 90.324px;
-  --radius-full-5: 100px;
-  --radius-full-6: 9999px;
-
-  /* Named Radii */
-  --radius-tags: 100px;
-  --radius-cards: 12px;
-  --radius-badges: 9999px;
-  --radius-images: 16px;
-  --radius-inputs: 9px;
-  --radius-buttons: 9999px;
-  --radius-largecards: 20px;
-
-  /* Shadows */
-  --shadow-subtle: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
-  --shadow-subtle-2: rgba(18, 43, 165, 0.04) 0px 1px 1px -0.5px, rgba(18, 43, 165, 0.04) 0px 3px 3px -1.5px, rgba(18, 43, 165, 0.04) 0px 6px 6px -3px, rgba(18, 43, 165, 0.04) 0px 12px 12px -6px;
-  --shadow-xl: rgba(0, 0, 0, 0.17) -34px -13px 37px 0px, rgba(0, 0, 0, 0.2) -9px -3px 20px 0px;
-  --shadow-sm: rgba(13, 21, 48, 0.04) 0px 4px 4px 0px;
-  --shadow-md: rgba(0, 0, 0, 0.43) -8px 10px 13px 0px, rgba(0, 0, 0, 0.49) -2px 2px 7px 0px;
-  --shadow-subtle-3: rgba(255, 255, 255, 0.1) 0px 0.5px 0px 0px inset, rgba(255, 255, 255, 0.1) 0px -0.5px 0px 0px inset;
-  --shadow-xl-2: rgba(0, 0, 0, 0.55) 0px -13px 32px 0px;
-  --shadow-xl-3: rgba(0, 0, 0, 0.55) 0px -12px 29px 0px;
-  --shadow-xl-4: rgba(0, 0, 0, 0.55) 0px -11px 26px 0px;
+  /* Radius */
+  --radius-chip: 100px;
+  --radius-card: 14px;
+  --radius-input: 10px;
+  --radius-button: 12px;
+  --radius-modal: 20px;
 
   /* Surfaces */
-  --surface-canvas: #ffffff;
-  --surface-card: #f8f9fa;
-  --surface-section-band: #e9ebf0;
-  --surface-dark-panel: #111111;
-  --surface-ink-surface: #000000;
+  --surface-paper: #faf7f2;
+  --surface-linen: #f1ead9;
+  --surface-parchment: #ebe3d0;
+
+  /* Layout */
+  --page-max: 560px;
+  --baseline: 8px;
+
+  /* Motion */
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 450ms;
+
+  /* Theme color (PWA) */
+  --theme-color: #faf7f2;
 }
 ```
 
-### Tailwind v4
+## Quick Start — Example Component Prompts
 
-```css
-@theme {
-  /* Colors */
-  --color-signal-white: #ffffff;
-  --color-ink-black: #202020;
-  --color-onyx: #090c1d;
-  --color-carbon: #2a2a2a;
-  --color-slate: #646464;
-  --color-ash: #838383;
-  --color-fog: #b3b3b3;
-  --color-cloud: #d4d4d4;
-  --color-bone: #e8e8e8;
-  --color-mist: #f8f9fa;
-  --color-plaster: #e9ebf0;
-  --color-mercury: #eeeeee;
-  --color-brand-violet: #6647f0;
-  --color-signal-blue: #0091ff;
-  --color-mint: #6ee7b7;
-  --color-emerald: #00c07a;
-  --color-teal-tag: #16c0a4;
-  --color-rainbow-conic: #7d5be7;
-  --color-primary-gradient: #40ddff;
-  --color-dark-fade: #111111;
+1. **Date Card (Hoy hero):** "A massive date numeral in Newsreader 72–96px weight 500, left-aligned, color `--color-ink`. Above it, a mono uppercase label `LUNES · OCTUBRE` in 11px JetBrains Mono tracking 0.06em, color `--color-smoke`. Below it, a 1px stone rule. No background, no shadow, no card. The typography IS the card."
 
-  /* Typography */
-  --font-plus-jakarta-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-inter: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-sometype-mono: 'Sometype Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --font-sf-pro: 'SF Pro', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+2. **Ink Button:** "Background `--color-ink` (#1a1310), text paper at 13px Geist weight 700, border-radius **12px** (not pill), padding 12px 20px. Subtle inner edge using `box-shadow: inset 0 0 0 1px rgba(214,206,189,0.15)`. Used for primary actions."
 
-  /* Typography — Scale */
-  --text-body-sm: 14px;
-  --leading-body-sm: 1.5;
-  --tracking-body-sm: -0.01px;
-  --text-body: 16px;
-  --leading-body: 1.5;
-  --tracking-body: -0.01px;
-  --text-subheading: 20px;
-  --leading-subheading: 1.5;
-  --tracking-subheading: -0.02px;
-  --text-heading-sm: 34px;
-  --leading-heading-sm: 1.2;
-  --tracking-heading-sm: -0.04px;
-  --text-heading: 48px;
-  --leading-heading: 1.25;
-  --tracking-heading: -0.035px;
-  --text-heading-lg: 60px;
-  --leading-heading-lg: 1.1;
-  --tracking-heading-lg: -0.035px;
-  --text-display: 80px;
-  --leading-display: 1.2;
-  --tracking-display: -0.04px;
+3. **Task Row:** "A flat row with no card. Background paper, padding 14px 0, 1px bottom border `--color-sand`. Three columns: 24px circular checkbox — task label in 15px Geist — time in mono 12px right-aligned. Border-radius 0. Items align vertically to an 8px baseline grid."
 
-  /* Spacing */
-  --spacing-4: 4px;
-  --spacing-8: 8px;
-  --spacing-12: 12px;
-  --spacing-16: 16px;
-  --spacing-20: 20px;
-  --spacing-24: 24px;
-  --spacing-28: 28px;
-  --spacing-32: 32px;
-  --spacing-40: 40px;
-  --spacing-48: 48px;
-  --spacing-52: 52px;
-  --spacing-56: 56px;
-  --spacing-72: 72px;
-  --spacing-80: 80px;
-  --spacing-100: 100px;
+## 3 Example Component Prompts (for agents)
 
-  /* Border Radius */
-  --radius-sm: 1px;
-  --radius-lg: 9px;
-  --radius-xl: 12px;
-  --radius-2xl: 16px;
-  --radius-2xl-2: 20px;
-  --radius-3xl: 27.72px;
-  --radius-3xl-2: 32px;
-  --radius-3xl-3: 40px;
-  --radius-3xl-4: 45px;
-  --radius-full: 48px;
-  --radius-full-2: 54px;
-  --radius-full-3: 60px;
-  --radius-full-4: 90.324px;
-  --radius-full-5: 100px;
-  --radius-full-6: 9999px;
+1. **Date Card (Hoy hero):** "A massive date numeral in Newsreader 72–96px weight 500, left-aligned, color `--color-ink`. Above it, a mono uppercase label `LUNES · OCTUBRE` in 11px JetBrains Mono tracking 0.06em, color `--color-smoke`. Below it, a 1px stone rule. No background, no shadow, no card. The typography IS the card."
 
-  /* Shadows */
-  --shadow-subtle: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
-  --shadow-subtle-2: rgba(18, 43, 165, 0.04) 0px 1px 1px -0.5px, rgba(18, 43, 165, 0.04) 0px 3px 3px -1.5px, rgba(18, 43, 165, 0.04) 0px 6px 6px -3px, rgba(18, 43, 165, 0.04) 0px 12px 12px -6px;
-  --shadow-xl: rgba(0, 0, 0, 0.17) -34px -13px 37px 0px, rgba(0, 0, 0, 0.2) -9px -3px 20px 0px;
-  --shadow-sm: rgba(13, 21, 48, 0.04) 0px 4px 4px 0px;
-  --shadow-md: rgba(0, 0, 0, 0.43) -8px 10px 13px 0px, rgba(0, 0, 0, 0.49) -2px 2px 7px 0px;
-  --shadow-subtle-3: rgba(255, 255, 255, 0.1) 0px 0.5px 0px 0px inset, rgba(255, 255, 255, 0.1) 0px -0.5px 0px 0px inset;
-  --shadow-xl-2: rgba(0, 0, 0, 0.55) 0px -13px 32px 0px;
-  --shadow-xl-3: rgba(0, 0, 0, 0.55) 0px -12px 29px 0px;
-  --shadow-xl-4: rgba(0, 0, 0, 0.55) 0px -11px 26px 0px;
-}
-```
+2. **Ink Button:** "Background `--color-ink` (#1a1310), text paper at 13px Geist weight 700, border-radius **12px** (not pill), padding 12px 20px. Subtle inner edge using `box-shadow: inset 0 0 0 1px rgba(214,206,189,0.15)`. Primary CTA. No pill shape."
 
-
+3. **Task Row:** "A flat row with no card. Background paper, padding 14px 0, 1px bottom border `--color-sand`. Three columns: 24px circular checkbox (1.5px stone border, sage fill when done with white check) — task label 15px Geist weight 500 — time in mono 12px right-aligned. Border-radius 0. Items align to an 8px baseline grid."

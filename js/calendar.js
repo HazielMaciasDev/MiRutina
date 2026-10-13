@@ -27,36 +27,40 @@ const StatsView = {
 
     this.el.innerHTML = `
       <header class="stats-hero">
-        <span class="today-hero__eyebrow">Tu progreso</span>
+        <span class="stats-hero__eyebrow">Tu progreso</span>
         <h2 class="stats-hero__num">${streak}</h2>
-        <p class="stats-hero__label">días consecutivos al 100%</p>
+        <p class="stats-hero__label">${streak === 1 ? 'día' : 'días'} consecutivos al 100%</p>
+        <hr class="stats-hero__rule" />
       </header>
 
       <section class="stats-grid">
         <div class="stat-card">
-          <span class="stat-card__label">% esta semana</span>
-          <span class="stat-card__num stat-card__num--gradient">${weekPct}%</span>
-          <span class="stat-card__sub">Cumplimiento general</span>
+          <span class="stat-card__label">% semana</span>
+          <span class="stat-card__num stat-card__num--accent">${weekPct}<span style="font-size:24px;color:var(--color-smoke);">%</span></span>
+          <span class="stat-card__sub">Cumplimiento</span>
         </div>
         <div class="stat-card">
-          <span class="stat-card__label">Tareas hechas</span>
-          <span class="stat-card__num">${totalDone}</span>
+          <span class="stat-card__label">Hechas</span>
+          <span class="stat-card__num stat-card__num--sage">${totalDone}</span>
           <span class="stat-card__sub">En ${totalDays} días</span>
         </div>
         <div class="stat-card">
           <span class="stat-card__label">Mejor día</span>
-          <span class="stat-card__num" style="font-size:18px;line-height:1.2;">${bestLabel}</span>
+          <span class="stat-card__num stat-card__num--small">${bestLabel}</span>
           <span class="stat-card__sub">${best.dow != null ? `${best.avg}% promedio` : 'Sin datos aún'}</span>
         </div>
         <div class="stat-card">
-          <span class="stat-card__label">Racha actual</span>
+          <span class="stat-card__label">Racha</span>
           <span class="stat-card__num">${streak}</span>
           <span class="stat-card__sub">Días perfectos</span>
         </div>
       </section>
 
-      <section style="margin-top:32px;">
-        <div class="week__title" style="padding:0 20px 12px;">Últimos 7 días</div>
+      <section class="section">
+        <div class="section-label">
+          <span class="section-label__text">Últimos 7 días</span>
+          <span class="section-label__rule"></span>
+        </div>
         <div class="week">
           <div class="week__bars">
             ${weekBars.map(b => this.renderWeekBar(b)).join('')}
@@ -65,21 +69,27 @@ const StatsView = {
       </section>
 
       ${catStats.length ? `
-        <section style="margin-top:32px;">
-          <div class="week__title" style="padding:0 20px 12px;">Por categoría</div>
+        <section class="section">
+          <div class="section-label">
+            <span class="section-label__text">Por categoría</span>
+            <span class="section-label__rule"></span>
+          </div>
           <div class="cat-bars">
             ${catStats.map(c => this.renderCatBar(c)).join('')}
           </div>
         </section>
       ` : ''}
 
-      <section style="margin-top:32px;">
-        <div class="week__title" style="padding:0 20px 12px;">Historial</div>
+      <section class="section">
+        <div class="section-label">
+          <span class="section-label__text">Historial</span>
+          <span class="section-label__rule"></span>
+        </div>
         ${this.renderCalendar()}
       </section>
 
-      <div class="modal-backdrop" id="day-modal" role="dialog" aria-hidden="true">
-        <div class="modal" id="day-modal-content"></div>
+      <div class="day-modal-backdrop" id="day-modal" role="dialog" aria-hidden="true">
+        <div class="day-modal" id="day-modal-content"></div>
       </div>
     `;
 
@@ -107,8 +117,11 @@ const StatsView = {
     return `
       <div class="cat-bar">
         <div class="cat-bar__head">
-          <span>${Utils.esc(c.category.label)}</span>
-          <span class="t-slate">${c.done}/${c.total} · ${c.pct}%</span>
+          <span class="cat-bar__name">
+            <span class="cat-bar__swatch" style="background:${c.category.color};"></span>
+            ${Utils.esc(c.category.label)}
+          </span>
+          <span class="cat-bar__num">${c.done}/${c.total} · ${c.pct}%</span>
         </div>
         <div class="cat-bar__track">
           <div class="cat-bar__fill" style="width:${c.pct}%;background:${c.category.color};"></div>
@@ -198,14 +211,15 @@ const StatsView = {
       .sort((a, b) => (a.hour - b.hour) || (a.minute - b.minute));
     const log = Store.getDayLog(dateKey);
     const done = dayTasks.filter(t => log[t.id]?.done).length;
+    const pct = dayTasks.length ? Math.round((done / dayTasks.length) * 100) : 0;
 
     const content = document.getElementById('day-modal-content');
     content.innerHTML = `
-      <div class="modal__handle"></div>
-      <div class="modal__head">
+      <div class="day-modal__handle"></div>
+      <div class="day-modal__head">
         <div>
-          <div class="modal__date">${Utils.formatLongDate(date)}</div>
-          <div class="modal__sub">${done}/${dayTasks.length} completadas</div>
+          <div class="day-modal__date">${date.getDate()} ${Utils.monthName(date)}</div>
+          <div class="day-modal__sub">${Utils.dayName(date)} · ${done} / ${dayTasks.length} · ${pct}%</div>
         </div>
         <button class="btn btn--ghost btn--sm" data-action="close-modal">Cerrar</button>
       </div>
@@ -218,13 +232,11 @@ const StatsView = {
             <div class="day-task__check">
               ${isDone ? '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </div>
-            <div style="flex:1;min-width:0;">
+            <div class="day-task__body">
               <div class="day-task__label">${Utils.esc(task.label)}</div>
-              <div style="display:flex;gap:8px;align-items:center;margin-top:2px;">
-                <span class="task__time">${Utils.formatHour(task.hour, task.minute)}</span>
-                <span class="pill" style="background:${cat?.color}1a;color:${cat?.color};border:none;">
-                  ${cat?.label}
-                </span>
+              <div class="day-task__row">
+                <span class="day-task__time">${Utils.formatHour(task.hour, task.minute)}</span>
+                ${cat ? `<span class="chip" style="background:${cat.color}1a;color:${cat.color};border:none;">${cat.label}</span>` : ''}
               </div>
               ${entry.note ? `<div class="day-task__note">${Utils.esc(entry.note)}</div>` : ''}
             </div>
@@ -232,8 +244,9 @@ const StatsView = {
         `;
       }).join('') : `
         <div class="empty-state" style="padding:32px 0;">
-          <h2 class="t-h-sm">Sin tareas</h2>
-          <p class="t-slate">No hay tareas registradas para este día.</p>
+          <span class="empty-state__mark"></span>
+          <h2 class="t-title">Sin tareas</h2>
+          <p class="t-charcoal">No hay tareas registradas para este día.</p>
         </div>
       `}
     `;
