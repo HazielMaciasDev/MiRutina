@@ -22,11 +22,20 @@ const Utils = {
   },
 
   dayGroupForDate(date = new Date()) {
-    const d = this.dow(date);
-    if (d === 1 || d === 3) return 'L-X';
-    if (d === 2 || d === 4) return 'M-J';
-    if (d === 5) return 'V';
-    return null;
+    return this.dow(date); // returns 0..6 or null if invalid
+  },
+
+  // Tasks that apply to a given day-of-week (0=Sun..6=Sat)
+  tasksForDay(tasks, dayIdx) {
+    return tasks.filter(t => {
+      const groups = t.dayGroups && t.dayGroups.length
+        ? t.dayGroups
+        : (t.dayGroup === 'L-X' ? [1, 3]
+          : t.dayGroup === 'M-J' ? [2, 4]
+          : t.dayGroup === 'V'   ? [5]
+          : []);
+      return groups.includes(dayIdx);
+    });
   },
 
   dayName(date = new Date()) {

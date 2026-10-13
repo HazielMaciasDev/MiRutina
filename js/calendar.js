@@ -23,7 +23,7 @@ const StatsView = {
     const weekBars = Stats.weekBars();
     const catStats = Stats.categoryCompliance();
 
-    const bestLabel = best.group ? DAY_GROUPS[best.group]?.label : '—';
+    const bestLabel = best.dow != null ? Utils.dayName({ getDay: () => best.dow }) : '—';
 
     this.el.innerHTML = `
       <header class="stats-hero">
@@ -46,7 +46,7 @@ const StatsView = {
         <div class="stat-card">
           <span class="stat-card__label">Mejor día</span>
           <span class="stat-card__num" style="font-size:18px;line-height:1.2;">${bestLabel}</span>
-          <span class="stat-card__sub">${best.group ? `${best.avg}% promedio` : 'Sin datos aún'}</span>
+          <span class="stat-card__sub">${best.dow != null ? `${best.avg}% promedio` : 'Sin datos aún'}</span>
         </div>
         <div class="stat-card">
           <span class="stat-card__label">Racha actual</span>
@@ -91,11 +91,12 @@ const StatsView = {
       'week__bar',
       b.isToday ? 'is-today' : '',
       b.isFuture ? 'is-future' : '',
+      !b.hasTasks ? 'is-no-tasks' : '',
     ].join(' ');
     return `
       <div class="${cls}">
         <div class="week__bar-track">
-          <div class="week__bar-fill" style="height:${b.pct}%;"></div>
+          <div class="week__bar-fill" style="height:${b.hasTasks ? b.pct : 0}%;"></div>
         </div>
         <span class="week__bar-day">${b.label}</span>
       </div>
@@ -106,7 +107,7 @@ const StatsView = {
     return `
       <div class="cat-bar">
         <div class="cat-bar__head">
-          <span>${c.category.emoji} ${Utils.esc(c.category.label)}</span>
+          <span>${Utils.esc(c.category.label)}</span>
           <span class="t-slate">${c.done}/${c.total} · ${c.pct}%</span>
         </div>
         <div class="cat-bar__track">
@@ -137,13 +138,13 @@ const StatsView = {
       const key = Utils.todayKey(d);
       const stat = monthStats[key];
       const isToday = key === todayKey;
-      const isWeekend = Utils.isWeekend(d);
       const isFuture = d > new Date();
-      const showDot = !isWeekend && stat && stat.total > 0 && stat.done > 0;
+      const hasTasks = stat && stat.hasTasks;
+      const showDot = hasTasks && stat.done > 0;
       const cls = [
         'calendar__cell',
         isToday ? 'is-today' : '',
-        isWeekend ? 'is-weekend' : '',
+        !hasTasks ? 'is-no-tasks' : '',
         isFuture ? 'is-future' : '',
       ].join(' ');
       cells.push(`
@@ -192,8 +193,9 @@ const StatsView = {
     const date = Utils.parseKey(dateKey);
     const tasks = Store.getTasks();
     const cats = Store.getCategories();
-    const group = Utils.dayGroupForDate(date);
-    const dayTasks = tasks.filter(t => t.dayGroup === group);
+    const dayIdx = Utils.dow(date);
+    const dayTasks = Utils.tasksForDay(tasks, dayIdx)
+      .sort((a, b) => (a.hour - b.hour) || (a.minute - b.minute));
     const log = Store.getDayLog(dateKey);
     const done = dayTasks.filter(t => log[t.id]?.done).length;
 
@@ -203,7 +205,7 @@ const StatsView = {
       <div class="modal__head">
         <div>
           <div class="modal__date">${Utils.formatLongDate(date)}</div>
-          <div class="modal__sub">${group ? DAY_GROUPS[group].label : 'Fin de semana'} · ${done}/${dayTasks.length}</div>
+          <div class="modal__sub">${done}/${dayTasks.length} completadas</div>
         </div>
         <button class="btn btn--ghost btn--sm" data-action="close-modal">Cerrar</button>
       </div>
@@ -221,7 +223,7 @@ const StatsView = {
               <div style="display:flex;gap:8px;align-items:center;margin-top:2px;">
                 <span class="task__time">${Utils.formatHour(task.hour, task.minute)}</span>
                 <span class="pill" style="background:${cat?.color}1a;color:${cat?.color};border:none;">
-                  ${cat?.emoji} ${cat?.label}
+                  ${cat?.label}
                 </span>
               </div>
               ${entry.note ? `<div class="day-task__note">${Utils.esc(entry.note)}</div>` : ''}
@@ -231,7 +233,7 @@ const StatsView = {
       }).join('') : `
         <div class="empty-state" style="padding:32px 0;">
           <h2 class="t-h-sm">Sin tareas</h2>
-          <p class="t-slate">La rutina no aplica este día.</p>
+          <p class="t-slate">No hay tareas registradas para este día.</p>
         </div>
       `}
     `;
@@ -251,4 +253,3 @@ const StatsView = {
 };
 
 window.StatsView = StatsView;
-window.DAY_GROUPS = DAY_GROUPS;

@@ -11,35 +11,34 @@ const Stats = {
     return Math.round((done / tasks.length) * 100);
   },
 
+  // Tasks applicable to a given date's day-of-week
+  tasksForDate(date, tasks) {
+    return Utils.tasksForDay(tasks, Utils.dow(date));
+  },
+
   // Current perfect streak ending today or yesterday
-  // (only counts days where routine applies: Mon-Fri)
   perfectStreak() {
     const tasks = Store.getTasks();
-    const cats = Store.getCategories();
     const log = Store.getLog();
     let streak = 0;
     let d = new Date();
 
-    // If today is a weekend, start from yesterday's weekday
-    // If today is not at 100% yet, allow counting back from yesterday
     const todayKey = Utils.todayKey(d);
-    const todayGroup = Utils.dayGroupForDate(d);
-    if (todayGroup) {
-      const todayPct = this.percentFor(todayKey, tasks.filter(t => t.dayGroup === todayGroup));
+    const todayTasks = this.tasksForDate(d, tasks);
+    if (todayTasks.length > 0) {
+      const todayPct = this.percentFor(todayKey, todayTasks);
       if (todayPct < 100) {
         d = Utils.addDays(d, -1);
       }
     }
 
-    // Walk backwards up to 365 days
     for (let i = 0; i < 365; i++) {
-      const group = Utils.dayGroupForDate(d);
-      if (!group) {
+      const dayTasks = this.tasksForDate(d, tasks);
+      if (dayTasks.length === 0) {
         d = Utils.addDays(d, -1);
         continue;
       }
       const key = Utils.todayKey(d);
-      const dayTasks = tasks.filter(t => t.dayGroup === group);
       const done = dayTasks.filter(t => log[key]?.[t.id]?.done).length;
       if (done === dayTasks.length) {
         streak++;
@@ -76,9 +75,8 @@ const Stats = {
     let total = 0, done = 0;
     for (let i = 0; i < 7; i++) {
       const d = Utils.addDays(new Date(), -i);
-      const group = Utils.dayGroupForDate(d);
-      if (!group) continue;
-      const dayTasks = tasks.filter(t => t.dayGroup === group);
+      const dayTasks = this.tasksForDate(d, tasks);
+      if (dayTasks.length === 0) continue;
       total += dayTasks.length;
       const log = Store.getDayLog(Utils.todayKey(d));
       done += dayTasks.filter(t => log[t.id]?.done).length;
@@ -86,31 +84,31 @@ const Stats = {
     return total === 0 ? 0 : Math.round((done / total) * 100);
   },
 
-  // Best day of week (Lun..Vie) by avg %
+  // Best day of week by avg % (only weekdays with assigned tasks: L M X J V)
   bestDayOfWeek() {
     const tasks = Store.getTasks();
     const log = Store.getLog();
-    const buckets = { 'L-X': [], 'M-J': [], V: [] };
+    const buckets = { 1: [], 2: [], 3: [], 4: [], 5: [] };
     for (const dateKey in log) {
       const date = Utils.parseKey(dateKey);
-      const group = Utils.dayGroupForDate(date);
-      if (!group) continue;
-      const dayTasks = tasks.filter(t => t.dayGroup === group);
+      const dow = Utils.dow(date);
+      if (!buckets[dow]) continue;
+      const dayTasks = this.tasksForDate(date, tasks);
+      if (dayTasks.length === 0) continue;
       const logEntry = log[dateKey];
       const done = dayTasks.filter(t => logEntry[t.id]?.done).length;
-      const pct = (done / dayTasks.length) * 100;
-      buckets[group].push(pct);
+      buckets[dow].push((done / dayTasks.length) * 100);
     }
-    let bestGroup = null, bestAvg = -1;
-    for (const g in buckets) {
-      if (!buckets[g].length) continue;
-      const avg = buckets[g].reduce((a, b) => a + b, 0) / buckets[g].length;
+    let bestDow = null, bestAvg = -1;
+    for (const d in buckets) {
+      if (!buckets[d].length) continue;
+      const avg = buckets[d].reduce((a, b) => a + b, 0) / buckets[d].length;
       if (avg > bestAvg) {
         bestAvg = avg;
-        bestGroup = g;
+        bestDow = Number(d);
       }
     }
-    return { group: bestGroup, avg: Math.round(bestAvg) };
+    return { dow: bestDow, avg: Math.round(bestAvg) };
   },
 
   // Compliance per category (all-time)
@@ -119,14 +117,10 @@ const Stats = {
     const cats = Store.getCategories();
     const log = Store.getLog();
     const stats = {};
-    cats.forEach(c => {
-      stats[c.id] = { total: 0, done: 0, category: c };
-    });
+    cats.forEach(c => { stats[c.id] = { total: 0, done: 0, category: c }; });
     for (const dateKey in log) {
       const date = Utils.parseKey(dateKey);
-      const group = Utils.dayGroupForDate(date);
-      if (!group) continue;
-      const dayTasks = tasks.filter(t => t.dayGroup === group);
+      const dayTasks = this.tasksForDate(date, tasks);
       for (const t of dayTasks) {
         const catId = t.categoryId;
         if (!stats[catId]) continue;
@@ -140,22 +134,19 @@ const Stats = {
       .sort((a, b) => b.pct - a.pct);
   },
 
-  // 7-day rolling week bars (last 7 days)
+  // 7-day rolling week bars
   weekBars() {
     const tasks = Store.getTasks();
     const bars = [];
     for (let i = 6; i >= 0; i--) {
       const d = Utils.addDays(new Date(), -i);
-      const group = Utils.dayGroupForDate(d);
+      const dayTasks = this.tasksForDate(d, tasks);
       const key = Utils.todayKey(d);
-      let pct = 0, isFuture = false;
-      if (i === 0 && !group) isFuture = false; // today weekend
-      if (d > new Date()) isFuture = true;
-      if (group) {
-        const dayTasks = tasks.filter(t => t.dayGroup === group);
+      let pct = 0;
+      if (dayTasks.length) {
         const log = Store.getDayLog(key);
         const done = dayTasks.filter(t => log[t.id]?.done).length;
-        pct = dayTasks.length ? Math.round((done / dayTasks.length) * 100) : 0;
+        pct = Math.round((done / dayTasks.length) * 100);
       }
       bars.push({
         key,
@@ -164,8 +155,8 @@ const Stats = {
         label: Utils.dayNameShort(d),
         pct,
         isToday: i === 0,
-        isWeekend: !group,
-        isFuture,
+        hasTasks: dayTasks.length > 0,
+        isFuture: d > new Date(),
       });
     }
     return bars;
@@ -174,22 +165,17 @@ const Stats = {
   // Stats for one month calendar view
   monthStats(year, month) {
     const tasks = Store.getTasks();
-    const first = new Date(year, month, 1);
     const last = new Date(year, month + 1, 0);
     const result = {};
     for (let day = 1; day <= last.getDate(); day++) {
       const d = new Date(year, month, day);
       const key = Utils.todayKey(d);
-      const group = Utils.dayGroupForDate(d);
-      let pct = 0, total = 0, done = 0;
-      if (group) {
-        const dayTasks = tasks.filter(t => t.dayGroup === group);
-        total = dayTasks.length;
-        const log = Store.getDayLog(key);
-        done = dayTasks.filter(t => log[t.id]?.done).length;
-        pct = total ? Math.round((done / total) * 100) : 0;
-      }
-      result[key] = { pct, total, done, group };
+      const dayTasks = this.tasksForDate(d, tasks);
+      const total = dayTasks.length;
+      const log = Store.getDayLog(key);
+      const done = dayTasks.filter(t => log[t.id]?.done).length;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      result[key] = { pct, total, done, hasTasks: total > 0 };
     }
     return result;
   },

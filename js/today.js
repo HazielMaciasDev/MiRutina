@@ -42,19 +42,15 @@ const TodayView = {
   },
 
   eyebrow(group) {
-    if (!group) return 'Hoy · Día de descanso';
-    const labels = {
-      'L-X': 'Lunes y miércoles',
-      'M-J': 'Martes y jueves',
-      V: 'Viernes',
-    };
-    return `Hoy · ${labels[group]}`;
+    if (!group) return 'Hoy · Descanso';
+    const d = new Date();
+    return `Hoy · ${Utils.dayName(d)}`;
   },
 
-  renderProgress(tasks, group) {
+  renderProgress(tasks, dayIdx) {
     const todayKey = Utils.todayKey();
     const log = Store.getDayLog(todayKey);
-    const dayTasks = tasks.filter(t => t.dayGroup === group);
+    const dayTasks = Utils.tasksForDay(tasks, dayIdx);
     const done = dayTasks.filter(t => log[t.id]?.done).length;
     const pct = dayTasks.length ? Math.round((done / dayTasks.length) * 100) : 0;
     return `
@@ -94,10 +90,11 @@ const TodayView = {
     `;
   },
 
-  renderTaskGroups(tasks, cats, group) {
+  renderTaskGroups(tasks, cats, dayIdx) {
     const todayKey = Utils.todayKey();
     const log = Store.getDayLog(todayKey);
-    const dayTasks = tasks.filter(t => t.dayGroup === group);
+    const dayTasks = Utils.tasksForDay(tasks, dayIdx)
+      .sort((a, b) => (a.hour - b.hour) || (a.minute - b.minute));
 
     // Group by time of day
     const buckets = {
@@ -141,7 +138,7 @@ const TodayView = {
           </div>
           <div class="task__meta">
             <span class="pill" style="--c:${cat?.color}20;color:${cat?.color};border-color:transparent;background:${cat?.color}1a;">
-              ${cat?.emoji || '·'} ${Utils.esc(cat?.label || 'Otro')}
+              ${Utils.esc(cat?.label || 'Otro')}
             </span>
           </div>
           ${note ? `<p class="task__note">${Utils.esc(note)}</p>` : ''}
