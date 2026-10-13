@@ -407,6 +407,19 @@
   line-height: 1.1;
 }
 
+.stat-card__num--muted {
+  color: var(--color-mist);
+}
+
+.stat-card__unit {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 28px;
+  margin-left: 2px;
+  letter-spacing: -0.02em;
+  opacity: 0.55;
+}
+
 .stat-card__sub {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -417,7 +430,7 @@
 
 /* Week bar chart */
 .week {
-  padding: 0 var(--space-5);
+  padding: 0;
 }
 
 .week__bars {
@@ -448,7 +461,7 @@
 .week__bar-fill {
   width: 60%;
   max-width: 28px;
-  min-height: 2px;
+  min-height: 0;
   background: var(--color-ink);
   border-radius: var(--radius-chip);
   transition: height var(--dur-slow) var(--ease-soft);
@@ -482,7 +495,7 @@
 
 /* Category bars */
 .cat-bars {
-  padding: 0 var(--space-5);
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -536,7 +549,7 @@
 
 /* Calendar */
 .calendar {
-  padding: 0 var(--space-5);
+  padding: 0;
 }
 
 .calendar__head {

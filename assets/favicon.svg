@@ -1,13 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#e85a1a"/>
-      <stop offset="50%" stop-color="#3a4a6b"/>
-      <stop offset="100%" stop-color="#6b8e6f"/>
-    </linearGradient>
-  </defs>
   <rect width="64" height="64" rx="14" fill="#faf7f2"/>
-  <text x="32" y="46" text-anchor="middle"
+  <circle cx="46" cy="19" r="3.2" fill="#e85a1a"/>
+  <text x="32" y="50" text-anchor="middle"
         font-family="Newsreader, Source Serif 4, Georgia, serif"
-        font-weight="500" font-size="44" fill="url(#g)" letter-spacing="-1">R</text>
+        font-weight="500" font-size="55" fill="#1a1310" letter-spacing="-2.2">R</text>
 </svg>

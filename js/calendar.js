@@ -36,7 +36,7 @@ const StatsView = {
       <section class="stats-grid">
         <div class="stat-card">
           <span class="stat-card__label">% semana</span>
-          <span class="stat-card__num stat-card__num--accent">${weekPct}<span style="font-size:24px;color:var(--color-smoke);">%</span></span>
+          <span class="stat-card__num stat-card__num--accent">${weekPct}<span class="stat-card__unit">%</span></span>
           <span class="stat-card__sub">Cumplimiento</span>
         </div>
         <div class="stat-card">
@@ -46,7 +46,9 @@ const StatsView = {
         </div>
         <div class="stat-card">
           <span class="stat-card__label">Mejor día</span>
-          <span class="stat-card__num stat-card__num--small">${bestLabel}</span>
+          ${best.dow != null
+            ? `<span class="stat-card__num stat-card__num--small">${bestLabel}</span>`
+            : `<span class="stat-card__num stat-card__num--small stat-card__num--muted">—</span>`}
           <span class="stat-card__sub">${best.dow != null ? `${best.avg}% promedio` : 'Sin datos aún'}</span>
         </div>
         <div class="stat-card">
@@ -103,10 +105,11 @@ const StatsView = {
       b.isFuture ? 'is-future' : '',
       !b.hasTasks ? 'is-no-tasks' : '',
     ].join(' ');
+    const fillHeight = b.hasTasks ? b.pct : 0;
     return `
       <div class="${cls}">
         <div class="week__bar-track">
-          <div class="week__bar-fill" style="height:${b.hasTasks ? b.pct : 0}%;"></div>
+          <div class="week__bar-fill" style="height:${fillHeight}%;"></div>
         </div>
         <span class="week__bar-day">${b.label}</span>
       </div>
